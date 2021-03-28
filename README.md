@@ -1,4 +1,4 @@
-# progelettronica
+# prog_elettronica
 ## Progetto elettronica
 ### Table of contents
 * [Introduction](#introduction)
