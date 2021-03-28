@@ -2,13 +2,16 @@
 ## Progetto elettronica
 ### Introduzione 
 
-## Prerequisites
+### Prerequisites
+* [MPU6050_tockn](https://github.com/Tockn/MPU6050_tockn) - Arduino library for easy communicating with the MPU6050
 
-### Installing
+### Getting started
 
+### How to use
+#### GY-521 
 
-### GY-521 
+#### Servo 
 
-### Servo 
+#### EMG 
 
-### EMG 
+### Authors 
