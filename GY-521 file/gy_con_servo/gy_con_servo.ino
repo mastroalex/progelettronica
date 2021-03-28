@@ -10,7 +10,7 @@ float angle = 0;  //angolo lungo x MPU5060
 int t1 = 0; // timer per la stampa dei valori
 int pausa = 400 ; // pausa per il serial print
 const int servopin = 9; // pin per il servo
-const int angolopolso = 100; // definiamo l'angolo di massima rotazione del polso per la funzione map
+const int angolopolso = 75; // definiamo l'angolo di massima rotazione del polso per la funzione map
 int pos = 0; // poszione servo
 
 MPU6050 mpu6050(Wire);
