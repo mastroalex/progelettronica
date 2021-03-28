@@ -3,7 +3,8 @@
 ### Table of contents
 * [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
-* [Getting started](#getting_started)
+* [Getting started](#getting-started)
+* [Authors](#authors)
 
 ### Introduction 
 
