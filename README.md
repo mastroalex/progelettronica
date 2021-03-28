@@ -3,7 +3,7 @@
 ### Table of contents
 * [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
-* [Getting started](#getting started)
+* [Getting started](#getting_started)
 
 ### Introduction 
 
