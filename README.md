@@ -1,9 +1,14 @@
 # progelettronica
-### Progetto elettronica
-## Introduzione 
+## Progetto elettronica
+###Introduzione 
 
-## GY-521 
+## Prerequisites
 
-## Servo 
+### Installing
 
-## EMG 
+
+### GY-521 
+
+### Servo 
+
+### EMG 
