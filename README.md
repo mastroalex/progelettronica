@@ -30,7 +30,7 @@ _________________
 
 #### Servo 
 
-To control servo motor it's used Servo library. 
+The Servo library is used to control the servo motor.
  ```
 #include <Servo.h> 
 Servo servo-object-name;
