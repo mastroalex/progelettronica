@@ -30,6 +30,13 @@ _________________
 
 #### Servo 
 
+To control servo motor it's used Servo library. 
+''' 
+#include <Servo.h> 
+''' 
+
+<img src="https://github.com/mastroalex/TCS/blob/main/schemi_impianto/articles-quizzes-solar-collector2-1439195838.png" alt="system" width="500"/>
+
 #### EMG 
 
 ### Authors 
