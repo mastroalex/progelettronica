@@ -29,6 +29,9 @@ _________________
 #### GY-521 
 
 #### Servo 
+A servomotor is a rotary actuator or linear actuator that allows for precise control of angular or linear position, velocity and acceleration. It consists of a suitable motor coupled to a sensor for position feedback. It also requires a relatively sophisticated controller, often a dedicated module designed specifically for use with servomotors.
+
+Microservo SG90 is used. It can rotate approximately 180 degrees (90 in each direction) and works just like the standard kinds but smaller.
 
 The Servo library is used to control the servo motor.
  ```
