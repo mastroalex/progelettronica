@@ -53,4 +53,5 @@ The following diagram includes the connection for both the servo and the IMU.
 
 #### EMG 
 
+
 ### Authors 
