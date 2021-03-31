@@ -7,6 +7,11 @@
 * [Authors](#authors)
 
 ### Introduction 
+The idea is to show the concept and how it controls the gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
+An example in the following figure.
+<img src="https://github.com/mastroalex/progelettronica/blob/main/cad/Untitled.JPG" alt="structure" width="250"/> 
+The gripper has been further simplified but the same project could be realized by purchasing a robot gripper.
+
 
 ### Prerequisites
 
