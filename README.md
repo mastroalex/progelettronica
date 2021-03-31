@@ -7,7 +7,7 @@
 * [Authors](#authors)
 
 ### Introduction 
-The idea is to show the concept and how it controls the gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
+The idea of the project is to show the concept and how to controls gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
 An example in the following figure.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/cad/Untitled.JPG" alt="structure" width="400"/> 
