@@ -12,7 +12,7 @@ An example in the following figure.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/cad/Untitled.JPG" alt="structure" width="400"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/cad/Untitled3.JPG" alt="structure" width="400"/> 
 
-The gripper has been further simplified but the same project could be realized by purchasing a robot gripper.
+The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper.
 
 
 ### Prerequisites
