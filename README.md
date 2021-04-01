@@ -44,14 +44,14 @@ Microservo SG90 is used. It can rotate approximately 180 degrees (90 in each dir
 
 Position "0" (1.5 ms pulse) is middle, "90" (~2ms pulse) is middle, is all the way to the right, "-90" (~1ms pulse) is all the way to the left.
 The Servo library is used to control the servo motor.
- ```
+ ```c
 #include <Servo.h> 
 Servo servo-object-name;
 ```
 
 Then use the following command to control angle from 0 to 180 degrees.
 
- ```
+ ```c
 servo-object-name.write(degrees);
 ```
 The following diagram includes the connection for both the servo and the IMU.
