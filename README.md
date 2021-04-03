@@ -93,10 +93,10 @@ in particular the gelled one.
 This type of elecrodes contains a gelled electrolytic substance as interface between electrodes and skin. 
 Gelled EMG electrodes provide a non invasive technique for measurements and detection of EMG signal, but they are generally used for superficial muscles since they are applied 
 on the skin. 
-The EMG electrodes must be positioned appropriately. In particular two EMG electrodes should be placed between the motor unit and the tendinous insertion of the muscle, along the longitudinal midline of the muscle. The distance between the center of the electrods should be 1-2 cm.
-The last electrodes must be placed on an inactive section of the body.
+The EMG electrodes must be positioned appropriately. In particular two EMG electrodes should be placed between the motor unit and the tendinous insertion of the muscle, along the longitudinal midline of the muscle. The distance between the center of the two electrodes should be 1-2 cm.
+The third electrode must be placed on an inactive section of the body.
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/image4.png" alt="electrodes_placement" width="200"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/images/image5.png" alt="electrodes_placement" width="350"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/image5.png" alt="electrodes_placement" width="350"/>
 
 
 
