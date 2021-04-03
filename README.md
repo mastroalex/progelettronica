@@ -22,6 +22,7 @@ The gripper has been further simplified in different version but the same projec
 * EMG Sensor 
 * EMG Electrodes
 * Microservo motor SG90
+* DS18B20 Sensor
 
 _________________
 
@@ -98,8 +99,20 @@ The third electrode must be placed on an inactive section of the body.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/image5.png" alt="electrodes_placement" width="350"/>
 
+#### DS18B20 Sensor
+DS18B20 is a digital temperature sensor, which is a sensor capable of measuring the temperature of the environment but also of the ground or to detect temperature in liquids. 
+This sensor is available in several sizes, in this project it has been used the one inserted into a waterproof probe. The DS18B20 sensor is much more sensitive than the DHT11 
+(temperature and humidity sensor) because it can reach 9 to 12 bit resolution. More with this module it is possibile to add multiple sensors on the same bus, each 
+DS18B20 has a unique 64-bit serial code, which allows multiple DS18B20s to function on the same bus.
+The protocol used is OneWire protocol which uses a digital pin, from which a bus starts and allows us to communicate with a specific device on the bus knowing the address.
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/image2.png" alt="temperature_sensor" width="250"/>
 
+Two libraries are required, the first one is the DallasTemperature and the second one is the OneWire library. 
 
+ ```c
+#include <DallasTemperature.h>
+#include <OneWire.h>
+```
 
 ### Authors 
