@@ -38,10 +38,10 @@ GY-521 is a module that manages the MPU-6050 sensor, a chip manufactured by Inve
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/image1.png" alt="orientation_of_axes" width="250"/>
 
-The accelerometer is capable of detecting the angle of inclination along the three axes, while the gyroscope detects the angular velocity around the three axis.
+The accelerometer is capable of detecting the angle of inclination along the three axes, while the gyroscope detects the angular velocity around the three axes.
 GY-521 module is small in size but it is very accurate, it contains a 16-bit analog to digital conversion hardware for each channel so it captures the x, y, and z channel at the same time.
 The sensor uses the I2C protocol for communication.
-Two libraries are required one for the I2C anche the other for communicating with MPU-6050.
+Two libraries are required one for the I2C and the other for communicating with MPU-6050.
  ```c
  #include <MPU6050_tockn.h>
  MPU6050 mpu6050(Wire);
