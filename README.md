@@ -7,7 +7,7 @@
 * [Authors](#authors)
 
 ### Introduction 
-The idea of the project is to show the concept and how to controls gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
+The idea of the project is to show the concept and how to control gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
 An example in the following figure.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/cad/Untitled.JPG" alt="structure" width="400"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/cad/Untitled3.JPG" alt="structure" width="400"/> 
@@ -34,6 +34,22 @@ _________________
 
 ### How to use
 #### GY-521 
+GY-521 is a module that manages the MPU-6050 sensor, a chip manufactured by Invensense, which is a IMU (Inertia Measurement Unit) sensor based on MEMS technology that contains a three-axis accelerometer and a three-axis gyroscope embedded in a single chip. This is a 6 DOF (degrees of freedom) IMU sensor so it gives six values as output. It also contains a temperature sensor.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/image1.png" alt="orientation_of_axes" width="250"/>
+
+The accelerometer is capable of detecting the angle of inclination along the three axes, while the gyroscope detects the angular velocity around the three axis.
+GY-521 module is small in size but it is very accurate, it contains a 16-bit analog to digital conversion hardware for each channel so it captures the x, y, and z channel at the same time.
+The sensor uses the I2C protocol for communication.
+Two libraries are required one for the I2C anche the other for communicating with MPU-6050.
+ ```c
+ #include <MPU6050_tockn.h>
+ MPU6050 mpu6050(Wire);
+ #include <Wire.h>
+ ```
+
+
+
 
 #### Servo 
 A servomotor is a rotary actuator or linear actuator that allows for precise control of angular or linear position, velocity and acceleration. It consists of a suitable motor coupled to a sensor for position feedback. It also requires a relatively sophisticated controller, often a dedicated module designed specifically for use with servomotors.
