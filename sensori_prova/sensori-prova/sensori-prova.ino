@@ -21,6 +21,19 @@ int pos = 0; // poszione servo
 
 MPU6050 mpu6050(Wire);
 
+// emg
+
+#define THRESHOLD 550
+#define THRESHOLDMIN 200
+#define EMG_pin 0
+
+
+#define pinzamin 50
+#define pinzamax 110
+
+int somma = 0;
+int value = 0;
+
 void setup() {
 
   Serial.begin(9600);
@@ -31,25 +44,16 @@ void setup() {
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
   t1 = millis();
+
 }
 
 
-void pinza() {
-  for (int i = 50; i < 110; i++) {
-    servopinza.write(i);
-    delay(10);
-  }
-  delay(200);
-  for (int i = 110; i >= 50; i--) {
-    servopinza.write(i);
-    delay(10);
-  }
-}
+int sommavec[100];
 
 void loop() {
 
   mpu6050.update();
-    tempmpu = mpu6050.getTemp(); // prende la temperatura
+  tempmpu = mpu6050.getTemp(); // prende la temperatura
 
   angle = mpu6050.getAngleZ(); // prende l'angolo lungo x
 
@@ -59,12 +63,38 @@ void loop() {
     servomotor.write(pos);
   }
 
- //  pinza();
+  //  emg
+  // int value = analogRead(EMG_pin);
+  for(int i = 0; i < 100; i++){
+    sommavec[i]=analogRead(EMG_pin);
+    }
+  somma = 0;
+  for (int i = 0; i < 100; i++) {
+    somma = somma + sommavec[i];
+  }
+  value = somma / 100;
+
+  if ( value > THRESHOLD) {
+    servopinza.write(pinzamax);
+  }
+  else if (value < THRESHOLD ) {
+    servopinza.write(pinzamin);
+  }
+
+
+
   if (millis() - t1 > pausa) {
     Serial.print("anglez : ");
     Serial.print(angle);
     Serial.print("\t temp : ");
     Serial.println(tempmpu);
+    Serial.print("Value = ");
+    Serial.println(value);
+    Serial.print("Somma = ");
+    Serial.println(somma);
+    Serial.print("Emg= ");
+    Serial.println(analogRead(EMG_pin));
+
   }
   t1 = millis();
 }

@@ -1,8 +1,8 @@
 #include <Servo.h>
 
 #define THRESHOLD 70
-#define EMG_pin 2
-#define Servopin 5
+#define EMG_pin 0
+#define Servopin 6
 Servo servo1;
 int pos = 90;
 
