@@ -99,6 +99,114 @@ The third electrode must be placed on an inactive section of the body.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/image5.png" alt="electrodes_placement" width="350"/>
 
+It is also important to do some considerations about emg signals.
+
+Due to the low quality of the emg circuit the analog signal was full of noise. The voltage was only rectified but not very leveled. So we provided to simple smoothing algorithm.
+
+```c
+
+int readings[numReadings];      // the readings from the analog input
+int readIndex = 0;              // the index of the current reading
+int total = 0;                  // the running total
+int average = 0;                // the average
+int inputPin = A0;              // EMG analog pin
+
+void setup() {
+    Serial.begin(9600);
+  // initialize all the readings to 0:
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+    readings[thisReading] = 0;
+  }
+}
+
+
+void loop() {
+ 
+  total = total - readings[readIndex];          // subtract the last reading:
+  readings[readIndex] = analogRead(inputPin);   // read from the sensor
+  total = total + readings[readIndex];          // add the reading to the total:
+  readIndex = readIndex + 1;                    // advance to the next position in the array:
+
+  if (readIndex >= numReadings) {               // if we're at the end of the array
+    readIndex = 0;                              // wrap around to the beginning
+  }
+  average = total / numReadings;                // calculate the average:
+                                                // print different data for plotting
+  Serial.print(average);
+  Serial.print("\t");
+  Serial.print(soglia);
+  Serial.print("\t");
+  Serial.println(analogRead(inputPin));
+  delay(1);                                     // delay in between reads for stability
+}
+ ```
+
+
+ This is the Arduino's reference smoothing scritp with little changes made after a long period of testing.
+
+
+
+ <img src="https://github.com/mastroalex/progelettronica/blob/main/arduino_smoothing/emg-testcompleto1.png" alt="smoothing" width="1000"/>
+
+ > Smoothed signal (blue), original signal (green), threeshold (red)
+
+ This smoothed `average` allows us to customize the following control code for the clamp servo.
+
+ ```c
+#include <Servo.h>
+Servo servoclamp;
+long t3 = 0;
+long t4 = 20;
+boolean controllo[10];
+boolean stato;
+int i = 0;
+int soglia = 350; // Threeshold
+// This value derives from a long period of testing. 
+// You will need to do several tests 
+
+void setup() {
+  servo1.attach(5);
+  
+  // other code...
+  
+}
+
+ void loop() {
+
+// other code..
+
+  if (average > soglia) {
+
+    servoclamp.write(max_servo_angle);// gripper closing
+  }
+  if (millis() - t3 < t4) {
+    if (average < soglia) {
+      controllo[i] = LOW;
+    }
+    else {
+      controllo[i] = HIGH;
+    }
+    if (i < 10) {
+      i++;
+    }
+    t3 = millis();
+  }
+    // only if the average is below the threshold
+    // for a long time is it possible to close the clamp 
+  for (int j = 0; j < 10; j++) {      
+    if (controllo[j] == LOW) {      
+      stato = LOW;
+    }
+    else {
+      stato = HIGH;
+    }
+  }
+  if (stato == LOW) {
+    servoclamp.write(min_servo_angle);   // gripper closing
+  }
+ }
+ ```
+
 #### DS18B20 Sensor
 DS18B20 is a digital temperature sensor, which is a sensor capable of measuring the temperature of the environment but also of the ground or to detect temperature in liquids. 
 This sensor is available in several sizes, in this project it has been used the one inserted into a waterproof probe. The DS18B20 sensor is much more sensitive than the DHT11 
