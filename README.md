@@ -208,7 +208,9 @@ void setup() {
  }
  ```
 
-[![Video]({image-url})]({https://youtu.be/Dn7T8SKu3Fs} "First Test")
+<a href="{https://youtu.be/Dn7T8SKu3Fs" title="First Test"><img src="{image-url}" alt="First Test" /></a>
+
+
 
 
 #### DS18B20 Sensor
