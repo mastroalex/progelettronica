@@ -165,7 +165,7 @@ int soglia = 350; // Threeshold
 // You will need to do several tests 
 
 void setup() {
-  servo1.attach(5);
+  servoclamp.attach(5);
   
   // other code...
   
