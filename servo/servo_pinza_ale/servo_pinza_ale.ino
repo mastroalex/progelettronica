@@ -19,12 +19,12 @@ void setup() {
 //  }
 //  delay(200);
 //}
-void loop(){
+void loop() {
   servopinza();
-  }
+}
 
-void servopinza(){
-   for (int i = 50; i < 110; i++) {
+void servopinza() {
+  for (int i = 50; i < 110; i++) {
     servo1.write(i);
     delay(10);
   }
@@ -33,4 +33,4 @@ void servopinza(){
     servo1.write(i);
     delay(10);
   }
-  }
+}
