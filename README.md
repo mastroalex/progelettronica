@@ -142,7 +142,7 @@ void loop() {
  ```
 
 
- This is the Arduino's reference smoothing scritp with little changes made after a long period of testing.
+ This is the [Arduino's reference smoothing scritp](https://www.arduino.cc/en/Tutorial/BuiltInExamples/Smoothing/) with little changes made after a long period of testing.
 
 
 
@@ -193,6 +193,7 @@ void setup() {
   }
     // only if the average is below the threshold
     // for a long time is it possible to close the clamp 
+    // this allows to avoid problems due to sudden oscillations of the signal
   for (int j = 0; j < 10; j++) {      
     if (controllo[j] == LOW) {      
       stato = LOW;
