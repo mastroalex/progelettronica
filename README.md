@@ -148,7 +148,7 @@ void loop() {
 
  <img src="https://github.com/mastroalex/progelettronica/blob/main/arduino_smoothing/emg-testcompleto1.png" alt="smoothing" width="1000"/>
 
- > Smoothed signal (blue), original signal (green), threeshold (red)
+ > Smoothed signal (blue), original signal (green), threeshold (red). When the signal is below the threshold the arm is relaxed otherwise it is contracted.
 
  This smoothed `average` allows us to customize the following control code for the clamp servo.
 
