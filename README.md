@@ -230,6 +230,6 @@ Two libraries are required, the first one is the DallasTemperature and the secon
 
 The following circuit shows the test setup for developing the initial code:
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/image2.png" alt="sensor_testing" width="1000"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/sensori_prova/sensori-prova-circuit_bb.png" alt="sensor_testing" width="1000"/>
 
 ### Authors 
