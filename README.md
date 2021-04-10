@@ -232,4 +232,7 @@ The following circuit shows the test setup for developing the initial code:
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/sensori_prova/sensori-prova-circuit_bb.png" alt="sensor_testing" width="1000"/>
 
+This configuration on two 9V DC power supplies allows you to have +9 and -9 on the Vs terminals.
+It is also possible to use 18V DC power supply and split it in +9V and -9V.
+
 ### Authors 
