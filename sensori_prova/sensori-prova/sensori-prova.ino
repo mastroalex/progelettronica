@@ -23,16 +23,36 @@ MPU6050 mpu6050(Wire);
 
 // emg
 
-#define THRESHOLD 550
-#define THRESHOLDMIN 200
+
 #define EMG_pin 0
 
 
 #define pinzamin 50
-#define pinzamax 110
+#define pinzamax 100
 
 int somma = 0;
 int value = 0;
+
+
+// smoothing
+
+
+const int numReadings = 50;
+
+int readings[numReadings];      // the readings from the analog input
+int readIndex = 0;              // the index of the current reading
+int total = 0;                  // the running total
+int average = 0;                // the average
+
+// threeshold controll
+
+long t3 = 0; // contator for controll cycle
+long t4 = 20; // pause time for controll cycle
+boolean controllo[10]; // vec for controll cycle
+boolean stato; // boolean variable fro controll cycle
+int i = 0;
+int soglia = 350; // valore di soglia per la chiusura della pinza
+
 
 void setup() {
 
@@ -40,6 +60,10 @@ void setup() {
   servopinza.attach(pinzapin); // servo pinza
   servomotor.attach(servopin); // servo sul pin servopin
 
+  // initialize all the readings to 0:
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+    readings[thisReading] = 0;
+  }
   Wire.begin(); // avvio e inizializzo il gyro
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
@@ -48,7 +72,6 @@ void setup() {
 }
 
 
-int sommavec[100];
 
 void loop() {
 
@@ -63,22 +86,53 @@ void loop() {
     servomotor.write(pos);
   }
 
-  //  emg
-  // int value = analogRead(EMG_pin);
-  for(int i = 0; i < 100; i++){
-    sommavec[i]=analogRead(EMG_pin);
-    }
-  somma = 0;
-  for (int i = 0; i < 100; i++) {
-    somma = somma + sommavec[i];
-  }
-  value = somma / 100;
+  //  emg reading and smoothing
+  // subtract the last reading:
+  total = total - readings[readIndex];
+  // read from the sensor:
+  readings[readIndex] = analogRead(EMG_pin);
+  // add the reading to the total:
+  total = total + readings[readIndex];
+  // advance to the next position in the array:
+  readIndex = readIndex + 1;
 
-  if ( value > THRESHOLD) {
-    servopinza.write(pinzamax);
+  // if we're at the end of the array...
+  if (readIndex >= numReadings) {
+    // ...wrap around to the beginning:
+    readIndex = 0;
   }
-  else if (value < THRESHOLD ) {
-    servopinza.write(pinzamin);
+
+  // calculate the average:
+  average = total / numReadings;
+
+  // closing or opening calmp
+  if (average > soglia) {
+
+    servopinza.write(pinzamax);// chiudo la pinza
+  }
+  if (millis() - t3 < t4) {
+    if (average < soglia) {
+      controllo[i] = LOW;
+    }
+    else {
+      controllo[i] = HIGH;
+    }
+    if (i < 10) {
+      i++;
+    }
+    t3 = millis();
+  }
+
+  for (int j = 0; j < 10; j++) {
+    if (controllo[j] == LOW) {
+      stato = LOW;
+    }
+    else {
+      stato = HIGH;
+    }
+  }
+  if (stato == LOW) {
+    servopinza.write(pinzamin);// apriamo la pinza
   }
 
 
@@ -88,13 +142,14 @@ void loop() {
     Serial.print(angle);
     Serial.print("\t temp : ");
     Serial.println(tempmpu);
-    Serial.print("Value = ");
-    Serial.println(value);
-    Serial.print("Somma = ");
-    Serial.println(somma);
-    Serial.print("Emg= ");
+    Serial.print("Average: ");
+    Serial.print(average);
+    Serial.print(", Soglia: ");
+    Serial.print(soglia);
+    Serial.print(", EMG: ");
     Serial.println(analogRead(EMG_pin));
-
-  }
   t1 = millis();
+  }
+  delay(1);
+
 }

@@ -28,7 +28,7 @@ long t4 = 20;
 boolean controllo[10];
 boolean stato;
 int i = 0;
-int soglia = 350;
+int soglia = 500;
 
 void loop() {
   // subtract the last reading:
