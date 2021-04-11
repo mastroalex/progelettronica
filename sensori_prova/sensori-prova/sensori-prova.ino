@@ -6,7 +6,7 @@
 Servo servomotor; // inizializziamo il servo
 Servo servopinza;
 
-const int pinzapin = 5; // pin servo per la pinza
+const int pinzapin = 3; // pin servo per la pinza
 
 
 float tempmpu = 0; // temperatura MPU5060
@@ -19,12 +19,14 @@ const int angolorotservo = 150; // angolo di massima rotazione laterale
 const int angolominservo = 3; // angolo minimo del servo
 int pos = 0; // poszione servo
 
+int bottone = 7;
+
 MPU6050 mpu6050(Wire);
 
 // emg
 
 
-#define EMG_pin 0
+int EMG_pin = A0;
 
 
 #define pinzamin 50
@@ -51,12 +53,17 @@ long t4 = 20; // pause time for controll cycle
 boolean controllo[10]; // vec for controll cycle
 boolean stato; // boolean variable fro controll cycle
 int i = 0;
-int soglia = 350; // valore di soglia per la chiusura della pinza
+int soglia = 150; // valore di soglia per la chiusura della pinza
 
 
 void setup() {
-
   Serial.begin(9600);
+  Wire.begin(); // avvio e inizializzo il gyro
+
+  mpu6050.begin();
+// mpu6050.calcGyroOffsets(true);
+  mpu6050.setGyroOffsets(0, 0, 0);
+
   servopinza.attach(pinzapin); // servo pinza
   servomotor.attach(servopin); // servo sul pin servopin
 
@@ -64,28 +71,19 @@ void setup() {
   for (int thisReading = 0; thisReading < numReadings; thisReading++) {
     readings[thisReading] = 0;
   }
-  Wire.begin(); // avvio e inizializzo il gyro
-  mpu6050.begin();
-  mpu6050.calcGyroOffsets(true);
-  t1 = millis();
 
+  t1 = millis();
+//  pinMode(bottone, INPUT);
 }
 
 
 
 void loop() {
-
-  mpu6050.update();
-  tempmpu = mpu6050.getTemp(); // prende la temperatura
-
-  angle = mpu6050.getAngleZ(); // prende l'angolo lungo x
-
-  pos = map((int)angle, -angolopolso, angolopolso, 0, 180); // mappiamo la funzione dai valori letti dall IMU nel range del servo
-
-  if (millis() > 3000 ) { // mettiamo un blocco al motore nel mentre che IMU fa la calibrazione
-    servomotor.write(pos);
+  if (digitalRead(bottone) == HIGH) {
+    mpu6050.calcGyroOffsets(true);
+    Serial.print("CALC GYRO");
+    delay(3000);
   }
-
   //  emg reading and smoothing
   // subtract the last reading:
   total = total - readings[readIndex];
@@ -104,6 +102,34 @@ void loop() {
 
   // calculate the average:
   average = total / numReadings;
+
+
+  mpu6050.update();
+  tempmpu = mpu6050.getTemp(); // prende la temperatura
+
+  angle = mpu6050.getAngleZ(); // prende l'angolo lungo x
+
+  pos = map((int)angle, -angolopolso, angolopolso, 0, 180); // mappiamo la funzione dai valori letti dall IMU nel range del servo
+
+  if (millis() > 1000 ) { // mettiamo un blocco al motore nel mentre che IMU fa la calibrazione
+    servomotor.write(pos);
+  }
+
+
+  if (millis() - t1 > pausa) {
+    Serial.print("anglez : ");
+    Serial.print(angle);
+    Serial.print("\t temp : ");
+    Serial.println(tempmpu);
+    Serial.print("Average: ");
+    Serial.print(average);
+    Serial.print(", Soglia: ");
+    Serial.print(soglia);
+    Serial.print(", EMG: ");
+    Serial.println(analogRead(EMG_pin));
+    t1 = millis();
+  }
+
 
   // closing or opening calmp
   if (average > soglia) {
@@ -135,21 +161,6 @@ void loop() {
     servopinza.write(pinzamin);// apriamo la pinza
   }
 
-
-
-  if (millis() - t1 > pausa) {
-    Serial.print("anglez : ");
-    Serial.print(angle);
-    Serial.print("\t temp : ");
-    Serial.println(tempmpu);
-    Serial.print("Average: ");
-    Serial.print(average);
-    Serial.print(", Soglia: ");
-    Serial.print(soglia);
-    Serial.print(", EMG: ");
-    Serial.println(analogRead(EMG_pin));
-  t1 = millis();
-  }
   delay(1);
 
 }
