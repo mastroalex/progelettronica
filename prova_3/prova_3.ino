@@ -56,7 +56,6 @@ void setup() {
   
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
-  
   for (int thisReading = 0; thisReading < numReadings; thisReading++) {
     readings[thisReading] = 0;
   }
