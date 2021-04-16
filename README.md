@@ -235,4 +235,40 @@ The following circuit shows the test setup for developing the initial code:
 This configuration of two 9V DC power supplies allows you to have +9 and -9 on the Vs terminals.
 It is also possible to use 18V DC power supply and split it in +9V and -9V.
 
+COMPLETA COMPLETA COMPLETA
+
+COMPLETA COMPLETA COMPLETA
+
+COMPLETA COMPLETA COMPLETA
+
+COMPLETA COMPLETA COMPLETA
+
+## Device division
+
+At this point we have divided the code and the devices. We use an arduino nano to read the sensors and an arduino uno to control the servo motors.
+
+Communication between the two is via radio using two NRF24L01 Single chip 2.4 GHz Transceiver.
+
+### nRF24L01
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/nRF24L01.png" alt="nrf24" width="500"/>
+
+The device has an operating voltage of 1.9V ~ 3.6V, a built-in 2,4GHZ antenna and an operating speed (max) of 2 Mbps. 
+The chip is managed by the SPI interface. Through this interface it is possible to access the registers of the chip and modify all its parameters.
+This complex operation, however, is facilitated for us by libraries.
+```c
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+```
+To use the chip:
+
+COMPLETA COMPLETA COMPLETA
+
+### Arduino Nano for sensing 
+
+
+### Arduino Uno for execution
+
+
 ### Authors 
