@@ -11,11 +11,11 @@ const int pinzapin = 3; // pin servo per la pinza
 
 float tempmpu = 0; // temperatura MPU5060
 float angle = 0;  //angolo lungo z MPU5060
-int t1 = 0; // timer per la stampa dei valori
-int pausa = 400 ; // pausa per il serial print
+unsigned long t1 = 0; // timer per la stampa dei valori
+unsigned long pausa = 400 ; // pausa per il serial print
 const int servopin = 9; // pin per il servo
 const int angolopolso = 75; // definiamo l'angolo di massima rotazione del polso per la funzione map
-const int angolorotservo = 150; // angolo di massima rotazione laterale
+const int angolorotservo = 550; // angolo di massima rotazione laterale
 const int angolominservo = 3; // angolo minimo del servo
 int pos = 0; // poszione servo
 
@@ -48,12 +48,12 @@ int average = 0;                // the average
 
 // threeshold controll
 
-long t3 = 0; // contator for controll cycle
-long t4 = 20; // pause time for controll cycle
+unsigned long t3 = 0; // contator for controll cycle
+unsigned long t4 = 20; // pause time for controll cycle
 boolean controllo[10]; // vec for controll cycle
 boolean stato; // boolean variable fro controll cycle
 int i = 0;
-int soglia = 300; // valore di soglia per la chiusura della pinza
+int soglia = 500; // valore di soglia per la chiusura della pinza
 
 
 void setup() {

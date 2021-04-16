@@ -1,7 +1,7 @@
 #define USE_ARDUINO_INTERRUPTS true
 #include <PulseSensorPlayground.h>
 
-const int Pulsepin = 0;
+const int Pulsepin = A3;
 
 PulseSensorPlayground pulseSensor; 
 
