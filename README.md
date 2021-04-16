@@ -263,10 +263,30 @@ This complex operation, however, is facilitated for us by libraries.
 ```
 To use the chip:
 
-COMPLETA COMPLETA COMPLETA
+COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione
 
 ### Arduino Nano for sensing 
 
+For the arduino dedicated to sensors, the circuit has been modified by adding an LCD display to monitor the parameters and an nRF24L01 for radio transmission. The connection of the sensors has remained the same.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/arduinosense/arduinosense.png" alt="arduinosense" width="1000"/>
+
+INSERISCI DISEGNO FRITZING
+
+INSERISCI DISEGNO FRITZING
+
+INSERISCI DISEGNO FRITZING
+
+An arduino nano was used to make the whole thing more compact.
+In the code the elements related to the servo control have been removed and it has been reorganized.
+
+The main code is as follows:
+
+COMPLETA COMPLETA COMPLETA descrizione codice + librerie
+
+COMPLETA COMPLETA COMPLETA
+
+COMPLETA COMPLETA COMPLETA
 
 ### Arduino Uno for execution
 
