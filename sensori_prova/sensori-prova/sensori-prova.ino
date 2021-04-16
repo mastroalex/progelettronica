@@ -53,7 +53,7 @@ long t4 = 20; // pause time for controll cycle
 boolean controllo[10]; // vec for controll cycle
 boolean stato; // boolean variable fro controll cycle
 int i = 0;
-int soglia = 150; // valore di soglia per la chiusura della pinza
+int soglia = 300; // valore di soglia per la chiusura della pinza
 
 
 void setup() {
@@ -79,11 +79,7 @@ void setup() {
 
 
 void loop() {
-  if (digitalRead(bottone) == HIGH) {
-    mpu6050.calcGyroOffsets(true);
-    Serial.print("CALC GYRO");
-    delay(3000);
-  }
+
   //  emg reading and smoothing
   // subtract the last reading:
   total = total - readings[readIndex];
