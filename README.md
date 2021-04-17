@@ -95,7 +95,7 @@ EMG (Electromyography) sensor is able to measure a muscle's activity by monitori
 This sensor amplifies and processes the electric activity of a muscle and converts it into an analog signal which can be read by any microcontroller with an analog-to-digital converter like Arduino.
 When the muscle under test flexes, the sensors's output voltage increses.
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/emgraw.png" alt="emgraw" width="300"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/emgraw.PNG" alt="emgraw" width="300"/>
 
 
 Linked to the sensor via 3,5 mm jack connector there is a cable which is connected on one side to Arduino, while on the other side ends with three snap connectors 
