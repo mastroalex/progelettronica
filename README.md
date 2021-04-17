@@ -28,7 +28,8 @@ One possibility is to make it with two gears by connecting one to the servomotor
     + [nRF24L01](#nrf24l01)
     + [Arduino Nano for sensing](#arduino-nano-for-sensing)
     + [Arduino Uno for execution](#arduino-uno-for-execution)
-    + [Authors](#authors)
+  * [Conclusions and future developments](#conclusions-and-future-developments)
+  * [Authors](#authors)
 
 ## Prerequisites
 
