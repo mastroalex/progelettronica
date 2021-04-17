@@ -444,6 +444,119 @@ We also found it useful to develop a graphical user interface that allow you to 
 ### Processing and computer app
 
 To develop computer app we use Processing, compatible with MacOs, Windows and Linux.
+In order to control the clamp and the other servo used in this project two sliders have been created on Processing. 
+The first sketch created was the one on Arduino, in particular we have used a library which is called Firmata. Firmata is a library that implements the Firmata protocol for standard communication, to make Arduino or more generally a hardware device communicate with various types of peripherals or programs. 
+In this project it was used to make Arduino at the service of an external software that is Processing itself. 
+In the example section of the Arduino IDE we called ServoFrimata which is one of the example programs that supports as many servos as possible using the Servo library. 
+Once the example was opened, it was compiled and uploaded to Arduino. This meant that Arduino could be interfaced by using this comunication protocol with any other software, program o device with the same protocol like Processing.
+
+The code is as follows:
+
+```c
+#include <Servo.h>
+#include <Firmata.h>
+
+Servo servos[MAX_SERVOS];
+byte servoPinMap[TOTAL_PINS];
+byte servoCount = 0;
+
+void analogWriteCallback(byte pin, int value)
+{
+  if (IS_PIN_DIGITAL(pin)) {
+    servos[servoPinMap[pin]].write(value);
+  }
+}
+
+void systemResetCallback()
+{
+  servoCount = 0;
+}
+
+void setup()
+{
+  byte pin;
+
+  Firmata.setFirmwareVersion(FIRMATA_FIRMWARE_MAJOR_VERSION, FIRMATA_FIRMWARE_MINOR_VERSION);
+  Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
+  Firmata.attach(SYSTEM_RESET, systemResetCallback);
+
+  Firmata.begin(9600);
+  systemResetCallback();
+
+  // attach servos from first digital pin up to max number of
+  // servos supported for the board
+  for (pin = 0; pin < TOTAL_PINS; pin++) {
+    if (IS_PIN_DIGITAL(pin)) {
+      if (servoCount < MAX_SERVOS) {
+        servoPinMap[pin] = servoCount;
+        servos[servoPinMap[pin]].attach(PIN_TO_DIGITAL(pin));
+        servoCount++;
+      }
+    }
+  }
+}
+
+void loop()
+{
+  while (Firmata.available())
+    Firmata.processInput();
+}
+```
+
+In order to use the Firmata protocol on Processing, besides the serial library which is present by default on Arduino, it is necessary to import a library provided by Arduino which includes an Arduino equivalent software object, which represents the physical arduino connected via USB cable to the computer.
+
+```c
+import processing.serial.*;
+import cc.arduino.*;
+Arduino arduino;
+Serial serial;
+```
+
+No dedicated libraries have been loaded to create the sliders. In fact the elements that create the slider have been drawn with another program and then added as images inside the program folder.
+
+The images were then loaded into the code in this way:
+
+```c
+  immagine1 = loadImage("Immagine1.png");
+  immagine2 = loadImage("Immagine2.png");
+  immagine3 = loadImage("Immagine3.png");
+  immagine4 = loadImage("Immagine4.png");
+```
+And than the images were placed on the window:
+
+```c
+  image(immagine1, x1, y1);
+  image(immagine2, x2, y2);
+  image(immagine3, x1, y3);
+  image(immagine4, x4, y4);
+```
+
+So when the mouse moves along the x coordinate for the length of the slider in the upper half of the graphic window, the symbol which represents the indicator, will follow the mouse simulating the function of the slider. 
+While when the muose moves along the x coordinate for the lenght of the slidere in the lower half of the graphic window, the indicator of the second slider will follow the mouse.
+Then according to the position of the mouse the `servoWrite` function writes a value to the servo telling to go to the corresponding angle ranging from 0 to 180 degrees.
+
+The code is as follows:
+
+```c
+...
+if (mouseY < y1+20) {
+      float targetX1 = constrain(mouseX, 100, 380);
+      float dx = targetX1 - x2;
+      x2 += dx * easing;
+      arduino.servoWrite(5, constrain(mouseX / 2, 0, 180));
+  }
+ if (mouseY > y4-10) {
+      float targetX2 = constrain(mouseX, 100, 380);
+      float dx = targetX2 - x4;
+      x4 += dx * easing;
+      arduino.servoWrite(9, constrain(mouseX / 2, 0, 180));
+  }
+  ```
+ 
+ Below the graphic window with the created sliders:
+  
+  <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/graphics%20window.png" alt = "slider" width = "300"/>
+  
 
 ### Mobile app
 
