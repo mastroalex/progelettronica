@@ -370,10 +370,12 @@ We are therefore able to obtain the following values ​​which must be contain
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/sensor.png" alt="nanosensor" width="1000"/>
 
+> Configuration with Arduino nano and sensors on breadboard for testing
 
 ### Arduino Uno for execution
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/actuator.png" alt="actuator" width="1000"/>
 
+> Configuration with Arduino Uno, servomotors, radio trasmitter and clamp  for testing
 
 ### Authors 
