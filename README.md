@@ -14,6 +14,8 @@ An example in the following figure.
 
 The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper.
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/clamp.png" alt="structure" width="1000"/> 
+
 
 ### Prerequisites
 
@@ -263,11 +265,18 @@ This complex operation, however, is facilitated for us by libraries.
 ```
 To use the chip:
 
-COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione
+COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+
+COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+
+COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+
+COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+
 
 ### Arduino Nano for sensing 
 
-For the arduino dedicated to sensors, the circuit has been modified by adding an LCD display to monitor the parameters and an nRF24L01 for radio transmission. The connection of the sensors has remained the same. The DS18B20 sensor has been temporarily excluded due to incompatibility between the libraries. We will decide later whether to include it again by changing the code
+For the arduino dedicated to sensors, the circuit has been modified by adding an LCD display to monitor the parameters and an nRF24L01 for radio transmission. The connection of the sensors has remained the same. The DS18B20 sensor has been temporarily excluded due to incompatibility between the libraries. We will decide later whether to include it again by changing the code. So the temperature of the GY-512 is used although not as accurate.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/arduinosense/arduinosense.png" alt="arduinosense" width="1000"/>
 
@@ -326,9 +335,9 @@ The `printerfunzioni.h` contains the function to print in the serial monitor and
 
 To create special characters for LCD it is used  [LCD Custom Generator](https://maxpromer.github.io/LCD-Character-Creator/) that allow us to generate a byte custom char with pixel ON/OFF definition. This allows us to use special symbols in addition to ASCII characters by individually defining the on and off pixels in an 5x8 matrix (`byte_matrix`). It is possible to create up to 8 different symbols with the `createChar ()` function of the LiquidCrystal library and print them with `lcd.Write()`. For example for heart symbol:
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/heart.png" alt="LCD" width="100"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/heart.png" alt="LCD" width="150"/>
 
-```c
+```
 byte heart[] = {
   B00000,
   B11011,
@@ -349,16 +358,20 @@ lcd.write(1);
 
 Each library contains all the variables and all the other libraries necessary for their operation. 
 
+We are therefore able to obtain the following values ​​which must be contained to the arduino with the actuators:
 
+- `tempmpu`
+- `angle`
+- `average`
+- `BPM`
+- `soglia`
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/sensor.png" alt="nanosensor" width="1000"/>
 
-COMPLETA COMPLETA COMPLETA descrizione codice + librerie
-
-COMPLETA COMPLETA COMPLETA
-
-COMPLETA COMPLETA COMPLETA
 
 ### Arduino Uno for execution
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/actuator.png" alt="actuator" width="1000"/>
 
 
 ### Authors 
