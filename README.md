@@ -271,16 +271,61 @@ For the arduino dedicated to sensors, the circuit has been modified by adding an
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/arduinosense/arduinosense.png" alt="arduinosense" width="1000"/>
 
-INSERISCI DISEGNO FRITZING
-
-INSERISCI DISEGNO FRITZING
-
-INSERISCI DISEGNO FRITZING
-
 An arduino nano was used to make the whole thing more compact.
 In the code the elements related to the servo control have been removed and it has been reorganized.
 
 The main code is as follows:
+
+```c
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+#include "funzioniBPM.h" // battiti
+#include "printerfunzioni.h" // stampante
+#include "EMGsmooth.h" // lettura emg
+MPU6050 mpu6050(Wire);
+void setup() {
+  Serial.begin(9600);
+  Wire.begin(); // avvio e inizializzo il gyro
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets(true);
+  // mpu6050.setGyroOffsets(0, 0, 0);
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {  // initialize all the readings to 0:
+    readings[thisReading] = 0;
+  }
+  t1 = millis();
+  interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS
+  lcd.begin(); // initialize the LCD
+  lcd.backlight();
+}
+void loop() {
+  average = averagecalc (); // calcolo media EMG
+  mpu6050.update();
+  tempmpu = mpu6050.getTemp(); // prende la temperatura
+  angle = mpu6050.getAngleX(); // prende l'angolo lungo x
+  printatore(LOW); // set HIGH to debug EMG with serial plotter
+  lcdprint();
+  battiti();
+  delay(1);
+}
+```
+
+This main code has been simplified by adding several functions that call external library definitions:
+- ` averagecalc() ` has been defined in the `EMGsmooth.h` and is used to calculate the average of the distorted EMG signal
+- `printatore(LOW)` it is a special function that can be used to print the EMG signal for the serial plotter in order to debug any problems with the detection. It is usually used to print all values ​​on the serial monitor. It is defined in `printerfunzioni.h`
+- `lcdprint()` it is used to print the different values ​​and connected symbols on the LCD display
+- `battiti()`it is used to reveal heartbeats and BPM. It has been defined in the `funzioniBPM.h`
+
+To maintain the code clear this function was defined in external libraries. 
+The `EMGsmooth.h` library it's responsible of smoothing emg signal in order to obtain precision in threshold determination.
+The `funzioniBPM.h` library has already been described in the pulse sensor paragraph.
+The `printerfunzioni.h` contains the function to print in the serial monitor and in the lcd display. It also contains the definition of the LCD symbol as an arrow or heart.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/LCD.png" alt="arduinosense" width="500"/>
+
+Each library contains all the variables and all the other libraries necessary for their operation
+
+
+
 
 COMPLETA COMPLETA COMPLETA descrizione codice + librerie
 
