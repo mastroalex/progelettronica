@@ -39,10 +39,17 @@ One possibility is to make it with two gears by connecting one to the servomotor
 * EMG Electrodes
 * Microservo motor SG90
 * DS18B20 Sensor
+* nRF24L01
 
 _________________
 
 * [MPU6050_tockn](https://github.com/Tockn/MPU6050_tockn) - Arduino library for easy communicating with the MPU6050
+* nRF24L01 Library 
+* Vectorial graphic software
+
+
+* MySQL server
+* Web domain 
 
 
 
