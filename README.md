@@ -278,6 +278,11 @@ COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE
 
 ### Arduino Nano for sensing 
 
+> Configuration with Arduino nano and sensors on breadboard for testing
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/sensor.png" alt="nanosensor" width="1000"/>
+
+
 For the arduino dedicated to sensors, the circuit has been modified by adding an LCD display to monitor the parameters and an nRF24L01 for radio transmission. The connection of the sensors has remained the same. The DS18B20 sensor has been temporarily excluded due to incompatibility between the libraries. We will decide later whether to include it again by changing the code. So the temperature of the GY-512 is used although not as accurate.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/arduinosense/arduinosense.png" alt="arduinosense" width="1000"/>
@@ -368,14 +373,13 @@ We are therefore able to obtain the following values ​​which must be contain
 - `BPM`
 - `soglia`
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/sensor.png" alt="nanosensor" width="1000"/>
 
-> Configuration with Arduino nano and sensors on breadboard for testing
 
 ### Arduino Uno for execution
 
+> Configuration with Arduino Uno, servomotors, radio trasmitter and clamp  for testing
+
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/actuator.png" alt="actuator" width="1000"/>
 
-> Configuration with Arduino Uno, servomotors, radio trasmitter and clamp  for testing
 
 ### Authors 
