@@ -109,7 +109,7 @@ Surface EMG can be recorded by a pair of electrodes or by a more complex array o
 electrodes. More than one electrode is needed because EMG recordings display the potential
 difference between two separate electrodes.
 
-As you can read in the datasheet or in schematic, the two electrodes signal enter into an instrumentation amplifier: 
+As you can read in the datasheet or in schematic, the two electrodes signal enter into an amplifier for instrumentation: 
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/instramp.png" alt="strumental" width="400"/>
 
