@@ -214,20 +214,13 @@ int i = 0;
 int soglia = 350; // Threeshold
 // This value derives from a long period of testing. 
 // You will need to do several tests 
-
 void setup() {
   servoclamp.attach(5);
-  
-  // other code...
-  
-}
-
+    // other code...
+  }
  void loop() {
-
 // other code..
-
   if (average > soglia) {
-
     servoclamp.write(max_servo_angle);// gripper closing
   }
   if (millis() - t3 < t4) {
@@ -436,6 +429,14 @@ We are therefore able to obtain the following values ​​which must be contain
 > Configuration with Arduino Uno, servomotors, radio trasmitter and clamp  for testing
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/actuator.png" alt="actuator" width="1000"/>
+
+## GUI
+
+We also found it useful to develop a graphical user interface that allow you to view data or take control of the clamp, both from a computer and from a smartphone
+
+### Processing and computer app
+
+To develop computer app we use Processing, compatible with MacOs, Windows and Linux.
 
 ## Data logging and storage
 
