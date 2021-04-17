@@ -538,7 +538,7 @@ if (mouseY < y1+20) {
       x2 += dx * easing;
       arduino.servoWrite(5, constrain(mouseX / 2, 0, 180));
   }
-  if (mouseY > y4-10) {
+ if (mouseY > y4-10) {
       float targetX2 = constrain(mouseX, 100, 380);
       float dx = targetX2 - x4;
       x4 += dx * easing;
@@ -548,7 +548,7 @@ if (mouseY < y1+20) {
  
  Below the graphic window with the created sliders:
   
-  <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/graphics%20window.png" alt = "slider" width = "400"/>
+  <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/graphics%20window.png" alt = "slider" width = "250"/>
   
 
 ### Mobile app
