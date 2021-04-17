@@ -276,7 +276,7 @@ An arduino nano was used to make the whole thing more compact. The pin definitio
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/nanopinout.jpg" alt="nanopinout" width="500"/>
 
 
-In the code the elements related to the servo control have been removed and it has been reorganized.
+In the code the elements related to the servo motors have been removed and the rest has been rearranged.
 
 The main code is as follows:
 
@@ -324,9 +324,30 @@ The `EMGsmooth.h` library it's responsible of smoothing emg signal in order to o
 The `funzioniBPM.h` library has already been described in the pulse sensor paragraph.
 The `printerfunzioni.h` contains the function to print in the serial monitor and in the lcd display. It also contains the definition of the LCD symbol as an arrow or heart.
 
+To create special characters for LCD it is used  [LCD Custom Generator](https://maxpromer.github.io/LCD-Character-Creator/) that allow us to generate a byte custom char with pixel ON/OFF definition. This allows us to use special symbols in addition to ASCII characters by individually defining the on and off pixels in an 5x8 matrix (`byte_matrix`). It is possible to create up to 8 different symbols with the `createChar ()` function of the LiquidCrystal library and print them with `lcd.Write()`. For example for heart symbol:
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/heart.png" alt="LCD" width="100"/>
+
+```c
+byte heart[] = {
+  B00000,
+  B11011,
+  B10101,
+  B10001,
+  B01010,
+  B00100,
+  B00100,
+  B00000
+};
+lcd.createChar(1, heart);
+lcd.setCursor(6, 0);
+lcd.write(1);
+```
+
+
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/LCD.png" alt="LCD" width="300"/>
 
-Each library contains all the variables and all the other libraries necessary for their operation
+Each library contains all the variables and all the other libraries necessary for their operation. 
 
 
 
