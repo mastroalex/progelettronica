@@ -267,11 +267,15 @@ COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione
 
 ### Arduino Nano for sensing 
 
-For the arduino dedicated to sensors, the circuit has been modified by adding an LCD display to monitor the parameters and an nRF24L01 for radio transmission. The connection of the sensors has remained the same.
+For the arduino dedicated to sensors, the circuit has been modified by adding an LCD display to monitor the parameters and an nRF24L01 for radio transmission. The connection of the sensors has remained the same. The DS18B20 sensor has been temporarily excluded due to incompatibility between the libraries. We will decide later whether to include it again by changing the code
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/arduinosense/arduinosense.png" alt="arduinosense" width="1000"/>
 
-An arduino nano was used to make the whole thing more compact.
+An arduino nano was used to make the whole thing more compact. The pin definition remains the same. It is important to remember that there are no dedicated SDa and SCL pins but they are on A4 and A5.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/nanopinout.jpg" alt="nanopinout" width="500"/>
+
+
 In the code the elements related to the servo control have been removed and it has been reorganized.
 
 The main code is as follows:
@@ -320,7 +324,7 @@ The `EMGsmooth.h` library it's responsible of smoothing emg signal in order to o
 The `funzioniBPM.h` library has already been described in the pulse sensor paragraph.
 The `printerfunzioni.h` contains the function to print in the serial monitor and in the lcd display. It also contains the definition of the LCD symbol as an arrow or heart.
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/LCD.png" alt="arduinosense" width="500"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/LCD.png" alt="LCD" width="300"/>
 
 Each library contains all the variables and all the other libraries necessary for their operation
 
