@@ -548,7 +548,7 @@ if (mouseY < y1+20) {
  
  Below the graphic window with the created sliders:
   
-  <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/graphics%20window.png" alt = "slider" width = "250"/>
+  <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/graphics%20window.png" alt = "slider" width = "300"/>
   
 
 ### Mobile app
