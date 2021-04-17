@@ -262,6 +262,9 @@ void setup() {
 
 ### Pulse sensor 
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/pulsesensor.png" alt="pulse" width="250"/>
+
+
 DESCRIZIONE
 
 DESCRIZIONE
