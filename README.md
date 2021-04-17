@@ -432,11 +432,13 @@ We are therefore able to obtain the following values ​​which must be contain
 
 ## GUI
 
-We also found it useful to develop a graphical user interface that allow you to view data or take control of the clamp, both from a computer and from a smartphone
+We also found it useful to develop a graphical user interface that allow you to view data or take control of the clamp, both from a computer and from a smartphone.
 
 ### Processing and computer app
 
 To develop computer app we use Processing, compatible with MacOs, Windows and Linux.
+
+### Mobile app
 
 ## Data logging and storage
 
