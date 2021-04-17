@@ -129,7 +129,7 @@ The muscelsensor V3 is discontinued so we have chosen a copy. This copy of the V
 We also made a vectorial copy (`.svg`) that you can include in fritzing to easily draw the following schemes. This requires respecting the [fritzing standards](https://fritzing.org/learning/tutorials/creating-custom-parts) to design own parts. For more informations [this guide](https://learn.sparkfun.com/tutorials/make-your-own-fritzing-parts/all).
 
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/emg.png" alt="emg" heigth="300"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/images/emgvec.png" alt="emg2" heigth="300"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/emg.png" alt="emg" height="300"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/images/emgvec.png" alt="emg2" height="300"/>
 
 
 ### EMG Electrodes
