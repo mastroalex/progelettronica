@@ -12,7 +12,9 @@ An example in the following figure.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/extra/cad/Untitled.JPG" alt="structure" width="400"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/extra/cad/Untitled3.JPG" alt="structure" width="400"/> 
 
-The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper.
+The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper. 
+
+One possibility is to make it with two gears by connecting one to the servomotor. this version involves the use of recycled materials to demonstrate the use of the device.
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/clamp.png" alt="structure" width="1000"/> 
 
