@@ -1,6 +1,18 @@
-# prog_elettronica
 # Progetto elettronica
-### Table of contents
+
+## Introduction 
+The idea of the project is to show the concept and how to control gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
+An example in the following figure.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/extra/cad/Untitled.JPG" alt="structure" width="400"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/extra/cad/Untitled3.JPG" alt="structure" width="400"/> 
+
+The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper. 
+
+One possibility is to make it with two gears by connecting one to the servomotor. this version involves the use of recycled materials to demonstrate the use of the device.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/clamp.png" alt="structure" width="1000"/> 
+
+## Table of contents
 - [Progetto elettronica](#progetto-elettronica)
   * [Introduction](#introduction)
   * [Prerequisites](#prerequisites)
@@ -17,19 +29,6 @@
     + [Arduino Nano for sensing](#arduino-nano-for-sensing)
     + [Arduino Uno for execution](#arduino-uno-for-execution)
     + [Authors](#authors)
-
-## Introduction 
-The idea of the project is to show the concept and how to control gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
-An example in the following figure.
-
-<img src="https://github.com/mastroalex/progelettronica/blob/main/extra/cad/Untitled.JPG" alt="structure" width="400"/> <img src="https://github.com/mastroalex/progelettronica/blob/main/extra/cad/Untitled3.JPG" alt="structure" width="400"/> 
-
-The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper. 
-
-One possibility is to make it with two gears by connecting one to the servomotor. this version involves the use of recycled materials to demonstrate the use of the device.
-
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/clamp.png" alt="structure" width="1000"/> 
-
 
 ## Prerequisites
 
@@ -392,5 +391,7 @@ We are therefore able to obtain the following values ​​which must be contain
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/actuator.png" alt="actuator" width="1000"/>
 
+## Conclusions and future developments
 
-### Authors 
+
+## Authors 
