@@ -123,6 +123,10 @@ And finally it is smoothed:
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/smooth.png" alt="smoothing" width="400"/>
 
+In summary we will have a variable signal with muscle contraction that will be sent to the Arduino A/D converter.
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/emgsignal.png" alt="emgsignal" width="400"/>
+
 
 The muscelsensor V3 is discontinued so we have chosen a copy. This copy of the V3 allows a considerable saving however it has some defects. This sensor outputs a signal without smoothing and full of disturbs.
 
@@ -147,11 +151,6 @@ The electrical source is the muscle membrane potential of about –90 mV.
 Typical repetition rate of muscle motor unit firing is about 7–20 Hz, depending on the size of the muscle
 Measured EMG potentials range between less than 50 μV and up to 30 mV, depending on the muscle under observation. 
 **It must be amplified !**
-
-
-
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/emgsignal.png" alt="emgsignal" width="400"/>
-
 
 Due to the low quality of the emg circuit the analog signal was full of noise. The voltage was only rectified but not very leveled. So we provided to simple smoothing algorithm.
 
