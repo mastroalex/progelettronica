@@ -3,6 +3,8 @@
 #include "funzioniBPM.h" // battiti
 #include "printerfunzioni.h" // stampante
 #include "EMGsmooth.h" // lettura emg
+#include "radioRF.h" // lettura emg
+
 MPU6050 mpu6050(Wire);
 void setup() {
   Serial.begin(9600);
@@ -17,6 +19,10 @@ void setup() {
   interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS
   lcd.begin(); // initialize the LCD
   lcd.backlight();
+    radio.begin();
+  radio.openWritingPipe(address);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.stopListening();
 }
 void loop() {
   average = averagecalc (); // calcolo media EMG
@@ -26,5 +32,11 @@ void loop() {
   printatore(LOW); // set HIGH to debug EMG with serial plotter
   lcdprint();
   battiti();
-  delay(1);
+ 
+  charfortransmission("T", String(tempmpu));
+  charfortransmission("A", String(angle));
+  charfortransmission("M", String(average));
+  charfortransmission("B", String(BPM));
+  charfortransmission("S", String(soglia));
+   delay(1);
 }

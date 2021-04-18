@@ -112,7 +112,7 @@ void printatore(boolean debug) {
 
       t1 = millis();
 
-      Serial.print("anglex : ");
+      Serial.print("angle : ");
       Serial.print(angle);
       Serial.print("\t temp : ");
       Serial.print(tempmpu);
