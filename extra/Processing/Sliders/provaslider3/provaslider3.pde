@@ -43,13 +43,13 @@ void draw() {
   image(immagine2, x2, y2);
   image(immagine3, x1, y3);
   image(immagine4, x4, y4);
-  if (mouseY < y1+20) {
+  if (mousePressed && mouseY < y1+20) {
       float targetX1 = constrain(mouseX, 100, 380);
       float dx = targetX1 - x2;
       x2 += dx * easing;
       arduino.servoWrite(5, constrain(mouseX / 2, 0, 180));
   }
-  if (mouseY > y4-10) {
+  if (mousePressed && mouseY > y4-10) {
       float targetX2 = constrain(mouseX, 100, 380);
       float dx = targetX2 - x4;
       x4 += dx * easing;
