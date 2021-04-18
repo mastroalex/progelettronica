@@ -517,18 +517,18 @@ No dedicated libraries have been loaded to create the sliders. In fact the eleme
 The images were then loaded into the code in this way:
 
 ```c
-  immagine1 = loadImage("Immagine1.png");
-  immagine2 = loadImage("Immagine2.png");
-  immagine3 = loadImage("Immagine3.png");
-  immagine4 = loadImage("Immagine4.png");
+  barra1 = loadImage("barra1.png");
+  indicatore1 = loadImage("indicatore1.png");
+  barra2 = loadImage("barra2.png");
+  indicatore2 = loadImage("indicatore2.png");
 ```
 And than the images were placed on the window:
 
 ```c
-  image(immagine1, x1, y1);
-  image(immagine2, x2, y2);
-  image(immagine3, x1, y3);
-  image(immagine4, x4, y4);
+  image(barra1, x1, y1);
+  image(indicatore1, x2, y2);
+  image(barra2, x1, y3);
+  image(indicatore2, x4, y4);
 ```
 
 So when the mouse moves along the x coordinate for the length of the slider in the upper half of the graphic window, the symbol which represents the indicator, will follow the mouse simulating the function of the slider. 
@@ -539,13 +539,13 @@ The code is as follows:
 
 ```c
 ...
-if (mouseY < y1+20) {
+if (mousePressed && mouseY < y1+20) {
       float targetX1 = constrain(mouseX, 100, 380);
       float dx = targetX1 - x2;
       x2 += dx * easing;
       arduino.servoWrite(5, constrain(mouseX / 2, 0, 180));
   }
- if (mouseY > y4-10) {
+ if (mousePressed && mouseY > y4-10) {
       float targetX2 = constrain(mouseX, 100, 380);
       float dx = targetX2 - x4;
       x4 += dx * easing;
