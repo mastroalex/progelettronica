@@ -295,13 +295,12 @@ The following circuit shows the test setup for developing the initial code:
 This configuration of two 9V DC power supplies allows you to have +9 and -9 on the Vs terminals.
 It is also possible to use 18V DC power supply and split it in +9V and -9V.
 
-COMPLETA COMPLETA COMPLETA
+This configuration allowed us to do all the device and code tests. We therefore reworked part of the code by dividing it into the various modules in order to have a more modular system that would allow you to add or remove devices as needed.
+From this configuration we started to divide then into a structure determined for monitoring and a structure with actuators.
 
-COMPLETA COMPLETA COMPLETA
+In the end the sensors that must arrive on the wrist will be joined in a single cable equipped with a connector to connect it to the monitoring structure. 
 
-COMPLETA COMPLETA COMPLETA
-
-COMPLETA COMPLETA COMPLETA
+Everything will be reorganized in a more compact way
 
 ## Device division
 
@@ -402,6 +401,11 @@ void loop() {
   printatore(LOW); // set HIGH to debug EMG with serial plotter
   lcdprint();
   battiti();
+  charfortransmission("T", String(tempmpu));
+  charfortransmission("A", String(angle));
+  charfortransmission("M", String(average));
+  charfortransmission("B", String(BPM));
+  charfortransmission("S", String(soglia));
   delay(1);
 }
 ```
@@ -411,6 +415,7 @@ This main code has been simplified by adding several functions that call externa
 - `printatore(LOW)` it is a special function that can be used to print the EMG signal for the serial plotter in order to debug any problems with the detection. It is usually used to print all values ​​on the serial monitor. It is defined in `printerfunzioni.h`
 - `lcdprint()` it is used to print the different values ​​and connected symbols on the LCD display
 - `battiti()`it is used to reveal heartbeats and BPM. It has been defined in the `funzioniBPM.h`
+- `charfotransmission()`to trasmitting data with relative informations
 
 To maintain the code clear this function was defined in external libraries. 
 The `EMGsmooth.h` library it's responsible of smoothing emg signal in order to obtain precision in threshold determination.
@@ -588,7 +593,17 @@ if (mousePressed && mouseY < y1+20) {
 
 ## References
 
-
+- [nRF24L01 Wireless RF Module](https://components101.com/wireless/nrf24l01-pinout-features-datasheet)
+- [Arduino Wireless Communication](https://www.youtube.com/watch?v=7rcVeFFHcFM)
+- [EMG Circuit for a Microcontroller](http://www.instructables.com/member/Gundanium/?utm_source=pdf&utm_campaign=title)
+- [Electromyography(EMG) with MyoWare Muscle Sensor & Arduino](https://how2electronics.com/electromyography-emg-with-myoware-muscle-sensor-arduino/)
+- [Muscel Sensor V3 Datasheet](http://www.advancertechnologies.com/p/muscle-sensor-v3.html)
+- [pulsesensor.com](https://pulsesensor.com)
+- [FIAB elettrodi](https://www.fiab.it/prodotti.php)
+- [LCD custom generator](https://maxpromer.github.io/LCD-Character-Creator/)
+- [Fritzing standard](https://fritzing.org/learning/tutorials/creating-custom-parts)
+- [Make your own fritzing parts](https://learn.sparkfun.com/tutorials/make-your-own-fritzing-parts/all)
+- [Arduino smoothing](https://www.arduino.cc/en/Tutorial/BuiltInExamples/Smoothing)
 
 
 ## Authors 
