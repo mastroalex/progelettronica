@@ -604,6 +604,10 @@ if (mousePressed && mouseY < y1+20) {
 - [Fritzing standard](https://fritzing.org/learning/tutorials/creating-custom-parts)
 - [Make your own fritzing parts](https://learn.sparkfun.com/tutorials/make-your-own-fritzing-parts/all)
 - [Arduino smoothing](https://www.arduino.cc/en/Tutorial/BuiltInExamples/Smoothing)
-
+- [Uno pinout guide](https://www.circuito.io/blog/arduino-uno-pinout/)
+- [Nano pinout guide](https://www.makerguides.com/arduino-nano/)
+- [ESP8266 pinout](https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/)
+- [Elettromiografia](https://it.wikipedia.org/wiki/Elettromiografia_ed_elettroneurografia#:~:text=L'elettromiografia%20(EMG)%2C,dal%20punto%20di%20vista%20funzionale.)
+- [ECG](https://it.wikipedia.org/wiki/Elettrocardiogramma)
 
 ## Authors 
