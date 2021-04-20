@@ -24,7 +24,6 @@ String pacchetto;
 
 void loop() {
   charfortransmission("T", String(tempmpu));
-
   charfortransmission("A", String(angle));
   charfortransmission("M", String(average));
   charfortransmission("B", String(BPM));

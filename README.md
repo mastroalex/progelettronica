@@ -295,13 +295,12 @@ The following circuit shows the test setup for developing the initial code:
 This configuration of two 9V DC power supplies allows you to have +9 and -9 on the Vs terminals.
 It is also possible to use 18V DC power supply and split it in +9V and -9V.
 
-COMPLETA COMPLETA COMPLETA
+This configuration allowed us to do all the device and code tests. We therefore reworked part of the code by dividing it into the various modules in order to have a more modular system that would allow you to add or remove devices as needed.
+From this configuration we started to divide then into a structure determined for monitoring and a structure with actuators.
 
-COMPLETA COMPLETA COMPLETA
+In the end the sensors that must arrive on the wrist will be joined in a single cable equipped with a connector to connect it to the monitoring structure. 
 
-COMPLETA COMPLETA COMPLETA
-
-COMPLETA COMPLETA COMPLETA
+Everything will be reorganized in a more compact way
 
 ## Device division
 
@@ -315,21 +314,42 @@ Communication between the two is via radio using two NRF24L01 Single chip 2.4 GH
 
 The device has an operating voltage of 1.9V ~ 3.6V, a built-in 2,4GHZ antenna and an operating speed (max) of 2 Mbps. 
 The chip is managed by the SPI interface. Through this interface it is possible to access the registers of the chip and modify all its parameters.
+
 This complex operation, however, is facilitated for us by libraries.
+
 ```c
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
 ```
-To use the chip:
 
-COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+The connection requires several pins:
+	
+- GND
+- Vcc, powers the module  using 3.3V
+- CE, Chip Enable, used to enable SPI communication
+- CSN, Ship Select Not, pin has to be kept high always, else it will disable the SPI
+- SCK,Serial Clock, provides the clock pulse using which the SPI communication works
+- MOSI. Master Out Slave In, Connected to MOSI pin of Arduino, for the module to receive data from the arduino
+- MISO, Master In Slave Out,Connected to MISO pin of Arduino, for the module to send data from the Arduino
+- IRQ, it is an active low pin and is used only if interrupt is required
 
-COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+To use the chip it is necessary to set reading or writing in `setup()`like:
 
-COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+```c
+  radio.begin();
+  radio.openWritingPipe(address); //for receiving 
+//radio.openWritingPipe(address); // for trasmitting
+  radio.setPALevel(RF24_PA_MIN);
+  radio.stopListening(); //for receiving 
+//radio.stopListening();// for trasmitting
+```
 
-COMPLETA COMPLETA COMPLETA descrizione codice + spiegazione METTI INSIEME CODICE PER TX AND RX IN QUESTA SEZIONE 
+It is also important to define Chip Enable `CE`and Ship Select Not `CSN`
+
+
+Tor the transmission we used a function `charfortransmission()` created ad hoc that allows to concatenate a letter which indicates which data we are transmitting and the value assundo from the corresponding variable. this function is cycled in the `loop()` and continuously called by sending it different parameters depending on the variable. It is then converted into `char` to allow correct transmission with the libraries it uses. 
+The receiver has a similar function `radionuovo()` that first analyzes the first character identifying what information is received and then enters the data in the variables of interest, after making the appropriate variable type conversions
 
 
 ### Arduino Nano for sensing 
@@ -381,6 +401,11 @@ void loop() {
   printatore(LOW); // set HIGH to debug EMG with serial plotter
   lcdprint();
   battiti();
+  charfortransmission("T", String(tempmpu));
+  charfortransmission("A", String(angle));
+  charfortransmission("M", String(average));
+  charfortransmission("B", String(BPM));
+  charfortransmission("S", String(soglia));
   delay(1);
 }
 ```
@@ -390,6 +415,7 @@ This main code has been simplified by adding several functions that call externa
 - `printatore(LOW)` it is a special function that can be used to print the EMG signal for the serial plotter in order to debug any problems with the detection. It is usually used to print all values ​​on the serial monitor. It is defined in `printerfunzioni.h`
 - `lcdprint()` it is used to print the different values ​​and connected symbols on the LCD display
 - `battiti()`it is used to reveal heartbeats and BPM. It has been defined in the `funzioniBPM.h`
+- `charfotransmission()`to trasmitting data with relative informations
 
 To maintain the code clear this function was defined in external libraries. 
 The `EMGsmooth.h` library it's responsible of smoothing emg signal in order to obtain precision in threshold determination.
@@ -567,7 +593,17 @@ if (mousePressed && mouseY < y1+20) {
 
 ## References
 
-
+- [nRF24L01 Wireless RF Module](https://components101.com/wireless/nrf24l01-pinout-features-datasheet)
+- [Arduino Wireless Communication](https://www.youtube.com/watch?v=7rcVeFFHcFM)
+- [EMG Circuit for a Microcontroller](http://www.instructables.com/member/Gundanium/?utm_source=pdf&utm_campaign=title)
+- [Electromyography(EMG) with MyoWare Muscle Sensor & Arduino](https://how2electronics.com/electromyography-emg-with-myoware-muscle-sensor-arduino/)
+- [Muscel Sensor V3 Datasheet](http://www.advancertechnologies.com/p/muscle-sensor-v3.html)
+- [pulsesensor.com](https://pulsesensor.com)
+- [FIAB elettrodi](https://www.fiab.it/prodotti.php)
+- [LCD custom generator](https://maxpromer.github.io/LCD-Character-Creator/)
+- [Fritzing standard](https://fritzing.org/learning/tutorials/creating-custom-parts)
+- [Make your own fritzing parts](https://learn.sparkfun.com/tutorials/make-your-own-fritzing-parts/all)
+- [Arduino smoothing](https://www.arduino.cc/en/Tutorial/BuiltInExamples/Smoothing)
 
 
 ## Authors 
