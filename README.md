@@ -254,7 +254,7 @@ void setup() {
     }
   }
   if (stato == LOW) {
-    servoclamp.write(min_servo_angle);   // gripper closing
+    servoclamp.write(min_servo_angle);   // gripper opening
   }
  }
  ```
@@ -348,7 +348,7 @@ To use the chip it is necessary to set reading or writing in `setup()`like:
 It is also important to define Chip Enable `CE`and Ship Select Not `CSN`
 
 
-Tor the transmission we used a function `charfortransmission()` created ad hoc that allows to concatenate a letter which indicates which data we are transmitting and the value assundo from the corresponding variable. this function is cycled in the `loop()` and continuously called by sending it different parameters depending on the variable. It is then converted into `char` to allow correct transmission with the libraries it uses. 
+For the transmission we used a function `charfortransmission()` created ad hoc that allows to concatenate a letter which indicates which data we are transmitting and the value assumed from the corresponding variable. this function is cycled in the `loop()` and continuously called by sending it different parameters depending on the variable. It is then converted into `char` to allow correct transmission with the libraries it uses. 
 The receiver has a similar function `radionuovo()` that first analyzes the first character identifying what information is received and then enters the data in the variables of interest, after making the appropriate variable type conversions
 
 
