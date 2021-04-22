@@ -5,6 +5,8 @@
 #include "rotation.h"
 #include "servoclamp.h"
 
+#include "btserial.h"
+
 RF24 radio(7, 8); //CE, CSN
 const byte address[6] = "00001";
 
@@ -25,14 +27,19 @@ void setup() {
   radio.openReadingPipe(0, address);
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
-    servomotor.attach(servopin); // servo sul pin servopin
+  servomotor.attach(servopin); // servo sul pin servopin
+  servopinza.attach(pinzapin);
+    bluetooth.begin(9600); //set baud rate
+
+
 }
 
 void loop() {
+  bt();
+
   radionuovo(); // riceve tutte le informazioni dal nRF24L01
   pos_servo(angle);
   pinzacontrol();
-  servopinza.write(90);
 }
 
 
@@ -40,11 +47,11 @@ void radionuovo() {
   if (radio.available()) {
     char text[32] = "";
     radio.read(&text, sizeof(text));
-//    Serial.println(text);
+    //    Serial.println(text);
 
     if (text[0] == 'T') {
       Serial.print("Temperatura: ");
-      valore="";
+      valore = "";
       for (int i = 1; i < 32; i++) {
         valore = valore + String(text[i]);
       }
@@ -69,18 +76,18 @@ void radionuovo() {
       average = valore2.toInt();
       Serial.println(average);
     }
-        else if (text[0] == 'B') {
+    else if (text[0] == 'B') {
       Serial.print("BPM: ");
-      valore3= "";
+      valore3 = "";
       for (int i = 1; i < 32; i++) {
         valore3 = valore3 + String(text[i]);
       }
       BPM = valore3.toInt();
       Serial.println(BPM);
     }
-     else if (text[0] == 'S') {
+    else if (text[0] == 'S') {
       Serial.print("Soglia: ");
-      valore4= "";
+      valore4 = "";
       for (int i = 1; i < 32; i++) {
         valore4 = valore4 + String(text[i]);
       }

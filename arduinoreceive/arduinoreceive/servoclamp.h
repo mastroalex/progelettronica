@@ -7,7 +7,7 @@
 
 Servo servopinza;
 
-const int pinzapin = 3; // pin servo per la pinza
+const int pinzapin = 5; // pin servo per la pinza
 
 int soglia ;
 int average;
@@ -18,8 +18,8 @@ int i=0;
 unsigned long t3 = 0; // contator for controll cycle
 unsigned long t4 = 20; // pause time for controll cycle
 
-#define pinzamin 50
-#define pinzamax 100
+#define pinzamin 80
+#define pinzamax 110
 
 void pinzacontrol (){
    // closing or opening calmp
