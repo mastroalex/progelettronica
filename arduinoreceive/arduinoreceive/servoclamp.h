@@ -7,7 +7,7 @@
 
 Servo servopinza;
 
-const int pinzapin = 5; // pin servo per la pinza
+const int pinzapin = 3; // pin servo per la pinza
 
 int soglia ;
 int average;
@@ -21,13 +21,13 @@ unsigned long t4 = 20; // pause time for controll cycle
 #define pinzamin 80
 #define pinzamax 110
 
-void pinzacontrol (){
+void pinzacontrol (int soglia){
    // closing or opening calmp
   if (average > soglia) {
 
     servopinza.write(pinzamax);// chiudo la pinza
   }
-  if (millis() - t3 < t4) {
+  if (millis() - t3 > t4) {
     if (average < soglia) {
       controllo[i] = LOW;
     }

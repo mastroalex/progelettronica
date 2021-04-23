@@ -4,7 +4,7 @@
 #include "funzioniBPM.h"
 #include "EMGsmooth.h"
 
-int soglia = 500; // valore di soglia per la chiusura della pinza
+// int soglia = 500; // valore di soglia per la chiusura della pinza
 
 float tempmpu = 0; // temperatura MPU5060
 float angle = 0;  //angolo lungo z MPU5060
@@ -59,7 +59,12 @@ byte deg[] = {
 
 
 void lcdprint() {
-  if (millis() - tlcd > 100) {
+  if(millis()<3000){// attesa per calibrazione
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print ("Attendi ...");
+    }
+  if (millis() - tlcd > 300) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.createChar(0, rotate);
@@ -84,15 +89,24 @@ void lcdprint() {
     lcd.print("C");
 
     lcd.setCursor(0, 1);
-    lcd.print("avrg:");
+    lcd.print("M:");
     lcd.print(average);
-    lcd.setCursor(8, 1);
-    lcd.print("EMG:");
+    lcd.setCursor(5, 1);
+    lcd.print("E:");
     lcd.print(analogRead(EMG_pin));
+    lcd.setCursor(10, 1);
+    lcd.print("S:");
+    lcd.print(soglia);
     tlcd = millis();
   }
 }
-
+void   lcdstart(){
+   if(millis()<4000){// attesa per calibrazione
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print ("Attendi ...");
+    }
+  }
 void printatore(boolean debug) {
 
   if (debug == HIGH) {

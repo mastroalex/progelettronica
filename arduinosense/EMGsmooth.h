@@ -3,6 +3,8 @@
 // Dichiaro le funzioni che mi servono per leggere i battiti
 
 int EMG_pin = A0;
+int soglia_pin=A2;
+int soglia =0; 
 
 #include <Arduino.h>
 
