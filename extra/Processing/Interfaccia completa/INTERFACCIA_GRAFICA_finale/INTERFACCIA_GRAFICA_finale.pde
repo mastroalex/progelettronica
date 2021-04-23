@@ -46,34 +46,7 @@ PImage indicatore2;
 void setup()
 {
   //Grafico
-  size(1400,700);
   background(255);
-  for(r=0;r<10;r++){
-    line(10,r*47.5,460,r*47.5);
-    fill(0,0,0);
-    textSize(12);
-    text(Vo,20,47*(r+1));
-    Vo = Vo-50;
-  }
-  for(c=0;c<10;c++){
-    line(c*50+10,0,c*50+10,490);
-    fill(0,0,0);
-    textSize(12);
-    text(T,50*(c+1),485);
-    T = T+50;
-  }
-  stroke(0,0,250);
-  strokeWeight(2);
-  line(10,490-V,460,490-V);
-  stroke(0,0,0);
-  line(10,10,10,490);
-  line(10,490,490,490);
-  fill(0,0,0);
-  triangle(8,10,12,10,10,0);
-  triangle(480,488,480,492,490,490);
-  textSize(12);
-  text("t(s)",470,470);
-  text("V(v)",15,15);
   
   //icon
   size(1400,700);
@@ -112,15 +85,39 @@ size(1400, 700);
 void draw()
 {
   background(255);
+  for(r=0;r<10;r++){
+    line(10,r*47.5,460,r*47.5);
+    fill(0,0,0);
+    textSize(12);
+    text(Vo,20,47*(r+1));
+    Vo = Vo-50;
+  }
+  for(c=0;c<10;c++){
+    line(c*50+10,0,c*50+10,490);
+    fill(0,0,0);
+    textSize(12);
+    text(T,50*(c+1),485);
+    T = T+50;
+  }
+  stroke(0,0,250);
+  strokeWeight(2);
+  line(10,490-V,490,490-V);
+  stroke(0,0,0);
+  line(10,10,10,490);
+  line(10,490,490,490);
+  fill(0,0,0);
+  triangle(8,10,12,10,10,0);
+  triangle(480,488,480,492,490,490);
+  textSize(12);
+  text("t(s)",470,470);
+  text("V(v)",15,15);
+  
   //grafico
   // while(MyPort.available()>0)
-  {
+  
     
     //dati = MyPort.readStringUntil(end);
-    
-  }
-  
-  if(dati != "")
+    if(dati != "")
   {
     
     String[] v = split(dati,',');
@@ -131,6 +128,9 @@ void draw()
     dati ="";
     
   }
+  
+  
+  
   
   stroke(255,0,0);
   line(X0,490-Y0,X1,490-Y1);
@@ -179,6 +179,7 @@ if(i < 5) line(268+1000, 187-35*i+300, 273+1000, 187-35*i+300);
 textFont(font12);
 text(str(0+10*i), 282+1000, 210-35*i+300);
 
+//Sliders
 textSize(tsize);
   fill(0);
 text("Servopinza", 50, 150);
