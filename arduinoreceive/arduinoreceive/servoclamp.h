@@ -53,4 +53,13 @@ void pinzacontrol (int soglia){
   }
   }
 
+  
+void pinzacontrol2 (int angolo_pinza){
+   // closing or opening calmp
+  int angolo_pinza_map=map(angolo_pinza,0,180,pinzamin, pinzamax);
+
+    servopinza.write(angolo_pinza_map);// chiudo la pinza
+  }
+  
+
 #endif
