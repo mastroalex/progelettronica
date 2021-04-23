@@ -20,4 +20,11 @@ void pos_servo(float angle) {
 
 }
 
+void pos_servo2(int angle) {
+  int pos = map((int)angle, -angolopolso, angolopolso, 0, 180); // mappiamo la funzione dai valori letti dall IMU nel range del servo
+  if (millis() > 1000 ) { // mettiamo un blocco al motore nel mentre che IMU fa la calibrazione
+    servomotor.write(pos);
+  }
+
+}
 #endif

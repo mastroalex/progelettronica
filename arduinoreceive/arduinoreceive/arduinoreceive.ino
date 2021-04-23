@@ -26,7 +26,7 @@ void loop() {
     pinzacontrol(soglia);
   }
   if (controlloapp == 1) {
-    pos_servo(angolo_rot);
+    pos_servo2(angolo_rot);
     pinzacontrol2(angolo_pinza);
   }
   decodeserial();
