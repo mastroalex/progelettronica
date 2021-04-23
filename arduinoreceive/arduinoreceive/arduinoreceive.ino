@@ -1,7 +1,8 @@
 #include "rotation.h"
 #include "servoclamp.h"
 #include "radiolib.h"
- #include "serialdecode.h"
+#include "serialdecode.h"
+// #include "servofirmatacontrol.h"
 
 #include <nRF24L01.h>
 #include <RF24.h>
@@ -18,17 +19,17 @@ void setup() {
 }
 
 void loop() {
-//radionuovo(); // riceve tutte le informazioni dal nRF24L01 le stampa per lettura
+  //radionuovo(); // riceve tutte le informazioni dal nRF24L01 le stampa per lettura
   radioperbt(); // stampa codificate
-  if(controlloapp==0){
-  pos_servo(angle);
-   pinzacontrol(soglia);
+  if (controlloapp == 0) {
+    pos_servo(angle);
+    pinzacontrol(soglia);
   }
-  if(controlloapp==1){
-      pos_servo(90);
-   pinzacontrol(500);
-    }
+  if (controlloapp == 1) {
+    pos_servo(90);
+    pinzacontrol(500);
+  }
   decodeserial();
- 
+
   delay(1);
 }
