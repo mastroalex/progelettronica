@@ -704,8 +704,7 @@ Data are saved on a MySQL database reachable from a domain owned by one of us au
 
 For the visualization of the data we relied on the [Highcharts](https://www.highcharts.com/blog/products/highcharts/) libraries, a software library for dynamic charting written in pure JavaScript.
 
-
-### ESP8266
+### ESP8266
 
 
 ### DHT 11 
