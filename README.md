@@ -496,6 +496,8 @@ Finally, a trimmer was also added to manually adjust the threshold on the analog
 This second structure takes care of receiving the radio signals and retransmitting them via bluetooth (or via serial) and to move the two servomotors.
 It is important to note that a logic level converter (3.3V 5V TTL) was used to add the bluetooth module.
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/ttl.png" alt="ttl" width="300"/>
+
 <img src="https://github.com/mastroalex/progelettronica/blob/main/arduinoreceive/arduinoreceive_bb.png" alt="arduinoreceive" width="1000"/>
 
 
@@ -743,5 +745,7 @@ For the visualization of the data we relied on the [Highcharts](https://www.high
 - [ECG](https://it.wikipedia.org/wiki/Elettrocardiogramma)
 - [Anatomy of The DIY Heart Rate Monitor](https://pulsesensor.com/blogs/news/6326816-anatomy-of-the-diy-heart-rate-monitor) 
 - [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
+- [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
+- []
 
 ## Authors 
