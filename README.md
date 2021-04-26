@@ -496,19 +496,34 @@ Finally, a trimmer was also added to manually adjust the threshold on the analog
 This second structure takes care of receiving the radio signals and retransmitting them via bluetooth (or via serial) and to move the two servomotors.
 It is important to note that a logic level converter (3.3V 5V TTL) was used to add the bluetooth module.
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/arduinoreceive/arduinoreceive_bb.png" alt="arduinoreceive" width="1000"/>
 
 
 #### HC-06 for bluetooth
 
-#### Re-trasmitting
+The hc-06 module is a device that allows you to transform a signal on the serial bus into a bluetooth signal. 
+
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/hc06.png" alt="hc06" width="250"/>
+
+Typically is used a software serial protocol to communicate however we use directly the UART bus on pin tx and rx.
+So we created two new functions `radioperbt()` and `decodeserial()`.
+The first one analyzes the char received from the nRF24 and according to the first letter updates the respective variable and at the same time prints the value encoded in the serial (so also in bluetooth).
+The second one instead deals with analyzing the commands received. Therefore whether manual control is active or not and, if necessary, the rotation angles of the servomotors. It will be better described in the GUI section.
+
+`radioperbt ()` was originally written as a function to decode the radio message and update variables (`radionuov ()`). Then it has been updated in order to allow bluetooth communication by sending the message encoded with the first letter that indicates which variable corresponds to the data.
 
 #### Servo motors
 
+Two functions have been created to control the servomotors.
 
+`pos_servo()` to which we pass the inclination and takes care of remapping it correctly to rotate the structure.
+
+`pinzacontrol()` which takes care of deciding whether or not to close the clamp according to the threshold value.
 
 ## GUI
 
 We also found it useful to develop a graphical user interface that allow you to view data or take control of the clamp, both from a computer and from a smartphone.
+
 
 ### Processing and computer app
 
@@ -631,6 +646,7 @@ if (mousePressed && mouseY < y1+20) {
   
 #### Bluetooth decode 
 
+
 #### Code 
 
 
@@ -638,6 +654,23 @@ if (mousePressed && mouseY < y1+20) {
 ### Mobile app
 
 ## Data logging and storage
+
+Given the recent interest in telemedicine it seemed appropriate to allow the storage of the experiment data directly in a remote server, giving the possibility to view them remotely and after. 
+
+An environmental temperature and humidity sensor has also been integrated. 
+
+Data are saved on a MySQL database reachable from a domain owned by one of us authors. 
+
+For the visualization of the data we relied on the [Highcharts](https://www.highcharts.com/blog/products/highcharts/) libraries, a software library for dynamic charting written in pure JavaScript.
+
+### ESP8266 
+
+### DHT 11 
+
+
+### MySQL Database
+
+### Data visualizing 
 
 ## Make it more compact
 
@@ -670,5 +703,6 @@ if (mousePressed && mouseY < y1+20) {
 - [Elettromiografia](https://it.wikipedia.org/wiki/Elettromiografia_ed_elettroneurografia#:~:text=L'elettromiografia%20(EMG)%2C,dal%20punto%20di%20vista%20funzionale.)
 - [ECG](https://it.wikipedia.org/wiki/Elettrocardiogramma)
 - [Anatomy of The DIY Heart Rate Monitor](https://pulsesensor.com/blogs/news/6326816-anatomy-of-the-diy-heart-rate-monitor) 
+- [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
 
 ## Authors 
