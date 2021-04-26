@@ -603,14 +603,11 @@ void systemResetCallback()
 void setup()
 {
   byte pin;
-
   Firmata.setFirmwareVersion(FIRMATA_FIRMWARE_MAJOR_VERSION, FIRMATA_FIRMWARE_MINOR_VERSION);
   Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
   Firmata.attach(SYSTEM_RESET, systemResetCallback);
-
   Firmata.begin(9600);
   systemResetCallback();
-
   // attach servos from first digital pin up to max number of
   // servos supported for the board
   for (pin = 0; pin < TOTAL_PINS; pin++) {
