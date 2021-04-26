@@ -511,6 +511,18 @@ The first one analyzes the char received from the nRF24 and according to the fir
 The second one instead deals with analyzing the commands received. Therefore whether manual control is active or not and, if necessary, the rotation angles of the servomotors. It will be better described in the GUI section.
 
 `radioperbt ()` was originally written as a function to decode the radio message and update variables (`radionuov ()`). Then it has been updated in order to allow bluetooth communication by sending the message encoded with the first letter that indicates which variable corresponds to the data.
+```c
+if (text[0] == 'T') {
+      Serial.print("T");
+      valore = "";
+      for (int i = 1; i < 32; i++) {
+        valore = valore + String(text[i]);
+      }
+      tempmpu = valore.toFloat();
+      Serial.println(tempmpu);
+    }
+```
+The logic is to receive an `array chart`, analyze the first char and convert all the others to the variable of interest (`float` or `int`) and print the message again as a encoded `String`.
 
 #### Servo motors
 
@@ -518,7 +530,36 @@ Two functions have been created to control the servomotors.
 
 `pos_servo()` to which we pass the inclination and takes care of remapping it correctly to rotate the structure.
 
-`pinzacontrol()` which takes care of deciding whether or not to close the clamp according to the threshold value.
+`pinzacontrol()` which takes care of deciding whether or not to close the clamp according to the threshold value. There is a further check before reopening the clamp to avoid problems due to signal fluctuations.
+```c
+if (average > soglia) {
+    servopinza.write(pinzamax);// chiudo la pinza
+  }
+if (millis() - t3 > t4) {
+  if (average < soglia) {
+    controllo[i] = LOW;
+  }
+  else {
+    controllo[i] = HIGH;
+  }
+  if (i < 10) {
+    i++;
+  }
+  t3 = millis();
+  }
+for (int j = 0; j < 10; j++) {
+  if (controllo[j] == LOW) {
+    stato = LOW;
+  }
+  else {
+    stato = HIGH;
+  }
+}
+if (stato == LOW) {
+  servopinza.write(pinzamin);// apriamo la pinza
+}
+  
+```
 
 ## GUI
 
