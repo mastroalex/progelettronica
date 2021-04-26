@@ -267,7 +267,7 @@ We start with a light source and a light detector. Using an Infrared LED, and a 
 
 The next thing we need is a way to amplify the tiny signal coming off of the photodiode. Happily enough, the configuration of this circuit is well-known  as a 'Current to Voltage Converter' and it is a classic.
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/heartmonitorschm.png" alt="heartmonitorschm" width="250"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/heartmonitorschm.png" alt="heartmonitorschm" width="500"/>
 
 The photodiode needs to be shielded from ambient light, which generates alot of noise in the signal. 
 The waveform here is usable, but as you can see, the pulse signal is distorted by even small movements. Also any misalignment or movement of the IR LED will muddy up the signal.
@@ -276,7 +276,7 @@ pulsesensor.com make a Pulse Sensor that is small enough to be worn comfortably 
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/pulsesensor.png" alt="pulse" width="250"/>
 
-<img src="https://github.com/mastroalex/progelettronica/blob/main/images/pulsesensorschem.png" alt="pulsesensorschem" width="250"/>
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/pulsesensorschem.png" alt="pulsesensorschem" width="800"/>
 
 
 
