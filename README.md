@@ -717,7 +717,7 @@ For the visualization of the data we relied on the [Highcharts](https://www.high
 
 ### Sensors cable
 
-### Reading sensors and transmission
+### Reading station
 
 ### Power supply
 
