@@ -632,7 +632,7 @@ void loop()
 
 In order to use the Firmata protocol on Processing, besides the serial library which is present by default on Arduino, it is necessary to import a library provided by Arduino which includes an Arduino equivalent software object, which represents the physical arduino connected via USB cable to the computer.
 
-```c
+```js
 import processing.serial.*;
 import cc.arduino.*;
 Arduino arduino;
@@ -643,7 +643,7 @@ No dedicated libraries have been loaded to create the sliders. In fact the eleme
 
 The images were then loaded into the code in this way:
 
-```c
+```js
   barra1 = loadImage("barra1.png");
   indicatore1 = loadImage("indicatore1.png");
   barra2 = loadImage("barra2.png");
@@ -651,7 +651,7 @@ The images were then loaded into the code in this way:
 ```
 And than the images were placed on the window:
 
-```c
+```js
   image(barra1, x1, y1);
   image(indicatore1, x2, y2);
   image(barra2, x1, y3);
@@ -664,7 +664,7 @@ Then according to the position of the mouse the `servoWrite` function writes a v
 
 The code is as follows:
 
-```c
+```js
 ...
 if (mousePressed && mouseY < y1+20) {
       float targetX1 = constrain(mouseX, 100, 380);
