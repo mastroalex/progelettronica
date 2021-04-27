@@ -912,6 +912,6 @@ In conclusion, the entire data reading system looks like this:
 - [Anatomy of The DIY Heart Rate Monitor](https://pulsesensor.com/blogs/news/6326816-anatomy-of-the-diy-heart-rate-monitor) 
 - [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
-- []
+- [LCD I2C Lib](https://win.adrirobot.it/display_lcd/LCD_keypad_arduino/lcd_libreria_liquidcrystal_I2C.htm)
 
 ## Authors 
