@@ -753,7 +753,7 @@ We then connected everything in the base of the reading station so as to power e
 
 Two switches have also been added in order to selectively access the system and the power supply for the EMG
 
-<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/powersupply.png" alt = "basement" width = "1000"/>
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/basement.png" alt = "basement" width = "1000"/>
 
 In conclusion, the entire data reading system looks like this:
 
