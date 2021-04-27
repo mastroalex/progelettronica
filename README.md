@@ -686,10 +686,138 @@ if (mousePressed && mouseY < y1+20) {
   
 #### Bluetooth decode 
 
+Bluetooth performs two important functions.
+The first one involves the manual control switch. 
+
+When the switch is activated a command coded `Cx` is sent. `x` represents the state of the system. If it is `1` then the control will be manual otherwise it will be left to the sensors.
+
+In addition to sending this command, the angular values ​​for the servomotors are sent which will be received, decoded and implemented by the functions `pos_servo2(angle)`and `pinzacontrol2(angle)` in the servo motors structure. 
+To send these commands there is a double check by checking the mouse pressed on the slider coordinates and by a non-blocking timer to avoid errors in the receiving serial buffer.
+
+```js
+if (millis()-ti>500) {
+        if (pulsante==true) {
+          if (mousePressed && mouseY < y2+20) {
+            float pinzamap=map(target1, 50, 350, 0, 180);
+            String pinza="P"+str(pinzamap);
+            MyPort.write(pinza);
+            println(pinza);
+          }
+        }
+
+        ti=millis();
+      }
+```
+Rotation is remapped and coded with `P` for the gripper and `R` for angular rotation.
+
+The other important function is to receive temperature, rotation and electromyography data
+
+To do this `serialreceive()` function was implemented.
+
+```js
+ if (MyPort.available() > 0) {
+      dati = MyPort.readStringUntil('\n');
+      dati=dati.trim();
+    }
+    dativec=dati.charAt(0);
+    if (dativec == 'T') {
+      valore = "";
+      for (int i = 1; i < dati.length(); i++) {
+        valore = valore +dati.charAt(i) ;
+      }
+      tempC = float(valore);
+    }
+// ecc.
+```
+
+This function checks for input data and converts it to a `char array`. Then check the first element to decode the data, convert the value to a number (`float` or `int`) and update the variable.
 
 #### Code 
 
+To make the code more readable and functional, various classes have been created containing the various graphic and functional elements.
+There are different classics for:
 
+- Thermometer 
+- Virtual screens for data visualization
+- Slider
+- Serial and bluetooth comunication
+- Switch controll 
+- EMG chart
+
+The various classes are linked in order to pass the most important variables to each other.
+
+Within each class various objects have been created to implement the various functions. 
+It is very interesting, for example, how these three different objects are called up in the data visualization class:
+
+```js
+  schermo.temperaturadigitale(tempC);
+  schermo.inclinazione(Incl);
+  schermo.battito(Batt);
+```
+
+To draw and update the three virtual displays.
+
+This allowed us to obtain a much more opulent and organized final code. The code is as follows:
+
+```js
+import controlP5.*;
+ControlP5 cp5;
+import processing.serial.*;
+Serial MyPort;
+float target1;
+float target2;
+PFont font24;
+PFont font12;
+boolean pulsante=false;
+float tempC = 0;
+float Incl = 0;
+float Batt=0;
+
+Termom termom= new Termom(); 
+Schermo schermo=new Schermo();
+Slider slider=new Slider();
+Serialcomunication serialcomunication=new Serialcomunication();
+Switchcommand switchcommand = new Switchcommand();
+Grafico grafico = new Grafico();
+
+void setup()
+{
+  size(1400, 700);
+  background(255);
+  MyPort =  new Serial(this, "/dev/tty.HC-05-SerialPort", 9600);
+  grafico.setdati();
+  cp5 = new ControlP5(this);
+  switchcommand.setup();
+  schermo.cuore(); 
+  slider.sliderset();
+}
+
+void draw()
+{
+  background(255);
+  serialcomunication.serialreceive();
+  grafico.assi();
+  termom.disegna();
+  slider.slider1();
+  slider.slider2();
+  schermo.temperaturadigitale(tempC);
+  schermo.inclinazione(Incl);
+  schermo.battito(Batt);
+  serialcomunication.serialsend();
+}
+
+void icon(boolean theValue) {
+  println("got an event for icon", theValue);
+  if (theValue == true) {
+    MyPort.write("C1");
+    pulsante=true;
+  }  
+  if (theValue == false) {
+    MyPort.write("C0");
+    pulsante=false;
+  }
+} 
+```
 
 ### Mobile app
 
