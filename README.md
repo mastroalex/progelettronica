@@ -737,13 +737,13 @@ In order to have a compact but at the same modular structure and that would allo
 There are also a 3.5mm female jack connector for the electromyography cable and an RJ45 connector for the sensor cable.
 On the top floor there is the LCD display and the trimmer to adjust the threshold, easily accessible
 
-<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/readstation.png" alt = "readstation" width = "1000"/>
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/readstation.png" alt = "readstation" width = "500"/>
 
 ### Power supply
 
 To allow use without discharging the batteries or powering from a computer with usb we have recycled power supplies for electronic devices. 
 
-<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/powersupply.png" alt = "powersupply" width = "1000"/>
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/powersupply.png" alt = "powersupply" width = "800"/>
 
 We used two different 9V power supplies by joining a clamp (+) with a (-) obtaining a ground reference in order to have +9V and -9V on the other two cables. This is to power the electromyography circuit
 
