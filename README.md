@@ -841,7 +841,7 @@ The NodeMCU is an open source platform developed specifically for the IOT, It in
 The board is very powerful and we could have used it directly instead of arduino nano however we wanted to leave the modular system with the possibility of adding or not this functionality.
 
 
-<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/sensorcable.png" alt = "sensorcable" width = "500"/>
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esp8266_schema.png" alt = "esp8266" width = "500"/>
 
 To read the data from Arduino Nano we have implemented a serial software on pin 3 and 4 transmitting the data with the same coding logic used in the previous steps.
 From the side of the Arduino nano:
@@ -921,7 +921,7 @@ We must therefore connect the esp 8266 to the internet through the wifi library.
 A function has been implemented that repeatedly sends a text message containing the variables concatenated in a string that the server will decode and position the data correctly.
 
 ```c
-#include <Arduino.h>
+#include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 //timer
 unsigned long t2 = 0;
@@ -935,7 +935,6 @@ void servercall () {
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");
     dt = millis() - t2;
     if (dt >= t3) {
-      // Prepare your HTTP POST request data
       String httpRequestData = "api_key=" + apiKeyValue + "&tempmpu=" + String(tempmpu)
                                + "&angle=" + String(angle) + "&average=" + String(average) 
                                +  "&bpm=" + String(BPM) + "&soglia=" + String(soglia)
@@ -943,7 +942,6 @@ void servercall () {
       int httpResponseCode = http.POST(httpRequestData);
       t2 = millis();
     }
-    // Free resources
     http.end();
   }
 }
@@ -1004,7 +1002,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Connection failed: " . $conn->connect_error);
         } 
         $sql = "INSERT INTO Sensor (tempmpu, angle, average, bpm, soglia, temp, hum)
-        VALUES ('" . $tempmpu . "', '" . $angle . "', '" . $average . "','" . $bpm . "','" . $soglia . "','" . $temp . "','" . $hum . "')";
+        VALUES ('" . $tempmpu . "', '" . $angle . "', '" . $average . "',
+                '" . $bpm . "','" . $soglia . "','" . $temp . "','" . $hum . "')";
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
         } 
@@ -1104,5 +1103,5 @@ In conclusion, the entire data reading system looks like this:
 - [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
 - [HTTP POST](https://en.wikipedia.org/wiki/POST_(HTTP))
-
+- [tempcontrol.it](https://github.com/mastroalex/tempcontrol)
 ## Authors 
