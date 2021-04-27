@@ -914,13 +914,125 @@ CREATE TABLE Sensor (
 
 ### POST Request
 
-To send data we use http POST request. By design, the POST request method requests that a web server accepts the data enclosed in the body of the request message, most likely for storing it.
+To send data we use HTTP POST request. By design, the POST request method requests that a web server accepts the data enclosed in the body of the request message, most likely for storing it.
 
+We must therefore connect the esp 8266 to the internet through the wifi library. You must also include a library for HTTP.
 
+A function has been implemented that repeatedly sends a text message containing the variables concatenated in a string that the server will decode and position the data correctly.
 
+```c
+#include <Arduino.h>
+#include <ESP8266HTTPClient.h>
+//timer
+unsigned long t2 = 0;
+unsigned long dt = 0;
+unsigned long t3 = 200;//update database every
+
+void servercall () {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(serverName);    
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    dt = millis() - t2;
+    if (dt >= t3) {
+      // Prepare your HTTP POST request data
+      String httpRequestData = "api_key=" + apiKeyValue + "&tempmpu=" + String(tempmpu)
+                               + "&angle=" + String(angle) + "&average=" + String(average) 
+                               +  "&bpm=" + String(BPM) + "&soglia=" + String(soglia)
+                               + "&temp=" + String(t) + "&hum=" + String(h) + "";
+      int httpResponseCode = http.POST(httpRequestData);
+      t2 = millis();
+    }
+    // Free resources
+    http.end();
+  }
+}
+```
+
+Sensitive data such as wifi passwords and database usernames are saved in the `sensdata.h` file.
+
+So the main code is as follows:
+
+```c
+#include "serialreceive.h"
+#include "dhtread.h"
+#include "wifidata.h"
+void setup() {
+  Serial.begin(9600); 
+  Esp_serial.begin(9600); 
+  dht.begin();
+  WiFi.begin(ssid, password);
+  Serial.println("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println(".");
+  }
+  Serial.println(WiFi.localIP());
+}
+void loop() {
+  letturadht();
+  servercall();
+  decodeserial();
+  delay(1);
+}
+```
+
+A php page is called up on the server and takes care of decoding the data. 
+The function takes care of receiving the complete string and identifying the various concatenated variables in the prescribed order, then absorbing them in the reference column by inserting it in the table. It also marks the time of insertion.
+
+```php
+<?php
+
+$servername = "localhost";
+$dbname = "dbname";
+$username = "username";
+$password = "user_pw";
+$api_key_value = "APIKEY";
+$api_key = $tempmpu = $angle = $average = $bpm = $soglia = $temp = $hum = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $api_key = test_input($_POST["api_key"]);
+    if($api_key == $api_key_value) {
+        $tempmpu = test_input($_POST["tempmpu"]);
+        $angle = test_input($_POST["angle"]);
+        $average = test_input($_POST["average"]);
+        $bpm = test_input($_POST["bpm"]);
+        $soglia = test_input($_POST["soglia"]);
+        $temp = test_input($_POST["temp"]);
+        $hum = test_input($_POST["hum"]);
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        } 
+        $sql = "INSERT INTO Sensor (tempmpu, angle, average, bpm, soglia, temp, hum)
+        VALUES ('" . $tempmpu . "', '" . $angle . "', '" . $average . "','" . $bpm . "','" . $soglia . "','" . $temp . "','" . $hum . "')";
+        if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } 
+        else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+        $conn->close();
+    }
+    else {
+        echo "Wrong API Key provided.";
+    }
+}
+else {
+    echo "No data posted with HTTP POST.";
+}
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+```
 
 ### Data visualizing 
 
+To read the data another php page is called. The code is divided into three sections. The first takes care of taking data from the database, a second takes care of the HTLM structures and a third of the graphs with the Highchart libraries.
+
+INSERISCI DOMINIO + codice 
 
 ## Make it more compact
 
@@ -991,6 +1103,6 @@ In conclusion, the entire data reading system looks like this:
 - [Anatomy of The DIY Heart Rate Monitor](https://pulsesensor.com/blogs/news/6326816-anatomy-of-the-diy-heart-rate-monitor) 
 - [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
-- [HTTP Post](https://en.wikipedia.org/wiki/POST_(HTTP))
+- [HTTP POST](https://en.wikipedia.org/wiki/POST_(HTTP))
 
 ## Authors 
