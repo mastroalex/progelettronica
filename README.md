@@ -733,7 +733,7 @@ The sensors were connected as follows:
 
 ### Reading station
 
-In order to have a compact but at the same modular structure and that would allow to carry out different tests, we stacked several multi-hole circuits. 
+In order to have a compact but at the same modular structure and that would allow to carry out different tests, we stacked several multi-hole prototype boards. 
 There are also a 3.5mm female jack connector for the electromyography cable and an RJ45 connector for the sensor cable.
 On the top floor there is the LCD display and the trimmer to adjust the threshold, easily accessible
 
