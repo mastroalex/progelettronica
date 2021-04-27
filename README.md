@@ -864,7 +864,7 @@ We also implemented software serial on the nodeMCU with a dedicate library.
 #include <SoftwareSerial.h>
 SoftwareSerial Esp_serial(D3, D4);
 ```
-<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esp8266_schema_bb.png" alt = "esp8266" width = "1000"/>
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esp8266_schema.png" alt = "esp8266" width = "1000"/>
 
 
 ### DHT 11 
