@@ -1104,4 +1104,9 @@ In conclusion, the entire data reading system looks like this:
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
 - [HTTP POST](https://en.wikipedia.org/wiki/POST_(HTTP))
 - [tempcontrol.it](https://github.com/mastroalex/tempcontrol)
+
 ## Authors 
+
+- Mastrofini Alessandro
+- Rago Miriana
+- Volpato Rebecca
