@@ -897,7 +897,9 @@ void letturadht() {
 ### MySQL Database
 
 On the server side we have created a dedicated database with a custom user. We will need this data (`db_name` and `username`) to implement the code after.
+
 Using phpMyAdmin we have created a table ready to accept all the variables of interest:
+
 ```sql
 CREATE TABLE Sensor (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
