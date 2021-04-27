@@ -836,14 +836,11 @@ For the visualization of the data we relied on the [Highcharts](https://www.high
 ### Esp 8266
 
 We have added a second device in order to make the system completely modular allowing you to add this step to save data remotely if you wish.
-The NodeMCU is an open source platform developed specifically for the IOT, It includes a firmware that works through the ESP8266 SoC Wi-Fi module and hardware with the ESP-12 module base. To communicate with the computer it uses a CH340 chip.
+The NodeMCU is an open source platform developed specifically for the IOT, It includes a firmware that works through the ESP8266 SoC Wi-Fi module and hardware with the ESP-12E module base. To communicate with the computer it uses a CH340 chip.
 
 The board is very powerful and we could have used it directly instead of arduino nano however we wanted to leave the modular system with the possibility of adding or not this functionality.
 
 <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esppinout.png" alt = "esp8266" width = "500"/>
-
-
-
 
 To read the data from Arduino Nano we have implemented a serial software on pin 3 and 4 transmitting the data with the same coding logic used in the previous steps.
 From the side of the Arduino nano:
