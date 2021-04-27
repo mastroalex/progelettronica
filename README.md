@@ -572,6 +572,8 @@ We also found it useful to develop a graphical user interface that allow you to 
 
 To develop computer app we use Processing, compatible with MacOs, Windows and Linux.
 
+<img src="https://github.com/mastroalex/progelettronica/blob/main/images/gui.png" alt="gui" width="1000"/>
+
 #### Sliders
 
 In order to control the clamp and the other servo used in this project two sliders have been created on Processing. 
