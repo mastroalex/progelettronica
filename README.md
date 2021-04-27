@@ -715,13 +715,48 @@ For the visualization of the data we relied on the [Highcharts](https://www.high
 
 ## Make it more compact
 
+To make everything more compact and avoid the problems due to the lack of stability of the breadboards we decided to solder everything on a multi-hole circuit. However, to allow testing and component replacement we used multi-pin connectors. 
+
 ### Sensors cable
+
+To allow easy transport and disassembly we have combined all sensors in a single cable.
+
+The cable of the EMG with its 3.5 mm jack is excluded.
+We used a Cat 5e cable with T568B Wiring scheme.
+
+We connected together VCC and GND of the two sensors and the pulse sensor data arrives on pin A3.
+
+The sensors were connected as follows:
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/sensorcable.png" alt = "sensorcable" width = "300"/>
+
 
 ### Reading station
 
+In order to have a compact but at the same modular structure and that would allow to carry out different tests, we stacked several multi-hole circuits. 
+There are also a 3.5mm female jack connector for the electromyography cable and an RJ45 connector for the sensor cable.
+On the top floor there is the LCD display and the trimmer to adjust the threshold, easily accessible
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/readstation.png" alt = "readstation" width = "1000"/>
+
 ### Power supply
 
+To allow use without discharging the batteries or powering from a computer with usb we have recycled power supplies for electronic devices. 
 
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/powersupply.png" alt = "powersupply" width = "1000"/>
+
+We used two different 9V power supplies by joining a clamp (+) with a (-) obtaining a ground reference in order to have +9V and -9V on the other two cables. This is to power the electromyography circuit
+
+We added a 12V power supply to power the arduino nano from `Vin` which in turn powers the Esp8266 and the whole system.
+
+We then connected everything in the base of the reading station so as to power everything with a single cable with C13 connector. 
+
+Two switches have also been added in order to selectively access the system and the power supply for the EMG
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/powersupply.png" alt = "basement" width = "1000"/>
+
+In conclusion, the entire data reading system looks like this:
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/finalstruc.png" alt = "finalstruc" width = "1000"/>
 
 ## Conclusions and future developments
 
