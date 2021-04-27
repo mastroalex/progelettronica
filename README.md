@@ -727,6 +727,7 @@ We used a Cat 5e cable with T568B Wiring scheme.
 We connected together VCC and GND of the two sensors and the pulse sensor data arrives on pin A3.
 
 The sensors were connected as follows:
+
 <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/sensorcable.png" alt = "sensorcable" width = "300"/>
 
 
