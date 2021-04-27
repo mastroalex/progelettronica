@@ -14,6 +14,8 @@ boolean pulsante=false;
 float tempC = 0;
 float Incl = 0;
 float Batt=0;
+float[] data; 
+
 
 Termom termom= new Termom(); 
 Schermo schermo=new Schermo();

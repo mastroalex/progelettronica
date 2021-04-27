@@ -1,5 +1,4 @@
 public class Grafico {
- public float[] data; 
 public float[] datax; 
  public Grafico(){}
  

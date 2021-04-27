@@ -835,13 +835,92 @@ For the visualization of the data we relied on the [Highcharts](https://www.high
 
 ### Esp 8266
 
+We have added a second device in order to make the system completely modular allowing you to add this step to save data remotely if you wish.
+The NodeMCU is an open source platform developed specifically for the IOT, It includes a firmware that works through the ESP8266 SoC Wi-Fi module and hardware with the ESP-12 module base. To communicate with the computer it uses a CH340 chip.
+
+The board is very powerful and we could have used it directly instead of arduino nano however we wanted to leave the modular system with the possibility of adding or not this functionality.
+
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/sensorcable.png" alt = "sensorcable" width = "500"/>
+
+To read the data from Arduino Nano we have implemented a serial software on pin 3 and 4 transmitting the data with the same coding logic used in the previous steps.
+From the side of the Arduino nano:
+
+```c
+void trasmitt (String param, String val) {
+    invio = param + String(val);
+    mySeriale.println(invio);
+}
+```
+
+By passing it the different parameters such as `trasmitt("T", String(tempmpu))`.
+
+On the ESP side we initially cleaned the string of extreme formatting characters (`decodeserial()`) and then passed it to a second function that takes care of transforming it into an char array (`process()`) and finally the actual decoding by updating the variables (`analizestring()`).
+
+Moreover the device was powered by the 5V of the Arduino Nano in order to switch them on together. 
+
+We also implemented software serial on the nodeMCU with a dedicate library.
+```c
+#include <SoftwareSerial.h>
+SoftwareSerial Esp_serial(D3, D4);
+```
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esp8266_schema_bb.png" alt = "esp8266" width = "1000"/>
+
 
 ### DHT 11 
+
+An ambient humidity and temperature sensor has been added. A DHT11 read using the Adafruit library for DHT sensors.
+
+We have implemented this in a dedicated library:
+
+```c
+#include "DHT.h"
+#define DHTTYPE DHT11   // DHT 11
+const int DHTPin = D5;
+DHT dht(DHTPin, DHTTYPE);
+float h;
+float t;
+unsigned long timea=0;
+
+void letturadht() {
+   if (millis() - timea > 500) {
+    h = dht.readHumidity();
+    t = dht.readTemperature();
+    Serial.println(h);
+    Serial.println(t);
+  timea=millis();
+   }
+}
+```
 
 
 ### MySQL Database
 
+On the server side we have created a dedicated database with a custom user. We will need this data (`db_name` and `username`) to implement the code after.
+Using phpMyAdmin we have created a table ready to accept all the variables of interest:
+```sql
+CREATE TABLE Sensor (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tempmpu VARCHAR(10),
+    angle VARCHAR(10),
+    average VARCHAR(10),
+    bpm VARCHAR(10),
+    soglia VARCHAR(10),
+    temp VARCHAR(10),
+    hum VARCHAR(10),
+    reading_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+```
+
+### POST Request
+
+To send data we use http POST request. By design, the POST request method requests that a web server accepts the data enclosed in the body of the request message, most likely for storing it.
+
+
+
+
 ### Data visualizing 
+
 
 ## Make it more compact
 
@@ -912,6 +991,6 @@ In conclusion, the entire data reading system looks like this:
 - [Anatomy of The DIY Heart Rate Monitor](https://pulsesensor.com/blogs/news/6326816-anatomy-of-the-diy-heart-rate-monitor) 
 - [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
-- []
+- [HTTP Post](https://en.wikipedia.org/wiki/POST_(HTTP))
 
 ## Authors 
