@@ -1145,7 +1145,7 @@ if (!$pwd || $pwd != $password) {
 
 The graphs are widely customizable in particular the possibility of zooming in a certain time interval and scrolling along the time axis has been activated. It is also possible to select a single value and read other information such as the save time
 
-<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/zoomchart.png" alt = "zoomchart" width = "1000"/>
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/zoomchart.png" alt = "zoomchart" width = "800"/>
 
 ## Make it more compact
 
