@@ -1056,7 +1056,7 @@ To read the data another php page is called. The code is divided into three sect
 
 <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/datachart.png" alt = "datachart" width = "1000"/>
 
-The web page with the data is accessible at the [following link]() or with this short link:[bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelettronica). 
+The web page with the data is accessible at the [following link]() or with this short link: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelettronica). 
 
 The web page is password protected with a php algorithm, insert `elettronica`.
 
