@@ -1033,7 +1033,96 @@ function test_input($data) {
 
 To read the data another php page is called. The code is divided into three sections. The first takes care of taking data from the database, a second takes care of the HTLM structures and a third of the graphs with the Highchart libraries.
 
-INSERISCI DOMINIO + codice 
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/datachart.png" alt = "datachart" width = "1000"/>
+
+The web page with the data is accessible at the [following link]() or with this short link:[bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelettronica). 
+
+The web page is password protected with a php algorithm, insert `elettronica`.
+
+A structure php page has been created in different sections. 
+
+A first section deals with calling the database and reading the latest values. Yhis is also contained in the `call.php` file.
+Then it saves the data in variables that will be recalled from the graphs. Obviously we are talking about arrays.
+
+```php
+$readings_time = array_column($sensor_data, 'reading_time');
+$tempmpu = json_encode(array_reverse(array_column($sensor_data, 'tempmpu')), JSON_NUMERIC_CHECK);
+$angle = json_encode(array_reverse(array_column($sensor_data, 'angle')), JSON_NUMERIC_CHECK);
+$average = json_encode(array_reverse(array_column($sensor_data, 'average')), JSON_NUMERIC_CHECK);
+$bpm = json_encode(array_reverse(array_column($sensor_data, 'bpm')), JSON_NUMERIC_CHECK);
+$soglia = json_encode(array_reverse(array_column($sensor_data, 'soglia')), JSON_NUMERIC_CHECK);
+$temp = json_encode(array_reverse(array_column($sensor_data, 'temp')), JSON_NUMERIC_CHECK);
+$hum = json_encode(array_reverse(array_column($sensor_data, 'hum')), JSON_NUMERIC_CHECK);
+$reading_time = json_encode(array_reverse($readings_time), JSON_NUMERIC_CHECK);
+```
+
+Then there is the html structure in which we have put different containers with their own style to organize the layout. 
+
+```css
+   body {
+      min-width: 310px;
+    	max-width: 90%;
+    	height: 500px;
+      margin: 0 auto;
+    }
+  .container { 
+    position: center;
+    column-count: 2;
+    column-width: 50%;
+    padding-top: 50px;
+    }
+```
+
+By recalling the variables containing the data, the graphs are built using the highcharts libraries and therefore with a javascript snippet such as:
+
+```js
+// ---
+var tempmpu = <?php echo $tempmpu; ?>;
+// ...
+var reading_time = <?php echo $reading_time; ?>;
+// ---
+var chartT = new Highcharts.Chart({
+  chart:{ renderTo : 'chart-tempmpu', zoomType: 'x', panning: true, panKey: 'shift' },
+  title: { text: 'Temperature' },
+  series: [{ showInLegend: false, data: tempmpu }],
+  plotOptions: {line: { animation: false, dataLabels: { enabled: false } }, series: { color: '#C80303' }},
+  xAxis: { type: 'datetime', labels: { enabled: false }, categories: reading_time },
+  yAxis: {title: { text: 'Temperature (Celsius)' } },
+  credits: { enabled: false }
+});
+// ...
+```
+
+To this is added an additional algorithm to protect the display of the graphs with a password:
+
+```php
+$password = 'elettronica';
+// -------------------------
+$pwd = isset($_GET['pwd']) ? $_GET['pwd'] : false;
+if (!$pwd || $pwd != $password) {
+  ?>
+<form method="get" action="<?php echo $_SERVER['PHPSELF']; ?>">
+<table border="0" cellspacing="0" cellpadding="10">
+<?php if ($pwd !== false): ?><tr class="errore"><td colspan="3">La password inserita non è corretta!</td></tr><?php endif; ?>
+<tr>
+  <td>Password</td>
+  <td><input type="password" name="pwd" style="width: 180px;"/></td>
+  <td><input type="submit" value="Entra"/></td>
+</tr>
+</table>
+</form>  
+  <?php  
+}else{ 
+  ?>
+    // ALL THE CONTENTS
+  <?php  
+}
+?>
+```
+
+The graphs are widely customizable in particular the possibility of zooming in a certain time interval and scrolling along the time axis has been activated. It is also possible to select a single value and read other information such as the save time
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/zoomchart.png" alt = "zoomchart" width = "1000"/>
 
 ## Make it more compact
 
@@ -1106,6 +1195,9 @@ In conclusion, the entire data reading system looks like this:
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
 - [HTTP POST](https://en.wikipedia.org/wiki/POST_(HTTP))
 - [tempcontrol.it](https://github.com/mastroalex/tempcontrol)
+- [Il manuale di Arduino](https://www.zeppelinmaker.it/il-manuale-di-arduino/?v=532773df6f8a)
+- [Programmare](https://www.zeppelinmaker.it/programmare-2/?v=532773df6f8a)
+- [PHP Pwd](https://www.mrw.it/php/pagina-protetta-password_11675.html)
 
 ## Authors 
 
