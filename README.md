@@ -12,6 +12,8 @@ One possibility is to make it with two gears by connecting one to the servomotor
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/clamp.png" alt="structure" width="1000"/> 
 
+For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelettronica). 
+
 ## Table of contents
 - [Progetto elettronica](#progetto-elettronica)
   * [Introduction](#introduction)
