@@ -12,9 +12,12 @@ One possibility is to make it with two gears by connecting one to the servomotor
 
 <img src="https://github.com/mastroalex/progelettronica/blob/main/images/clamp.png" alt="structure" width="1000"/> 
 
+For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelettronica). 
+
 ## Table of contents
 - [Progetto elettronica](#progetto-elettronica)
   * [Introduction](#introduction)
+  * [Table of contents](#table-of-contents)
   * [Prerequisites](#prerequisites)
   * [Getting started](#getting-started)
   * [How to use](#how-to-use)
@@ -22,13 +25,33 @@ One possibility is to make it with two gears by connecting one to the servomotor
     + [Servo](#servo)
     + [EMG Sensor](#emg-sensor)
     + [EMG Electrodes](#emg-electrodes)
+    + [Pulse sensor](#pulse-sensor)
     + [DS18B20 Sensor](#ds18b20-sensor)
     + [Sensor testing](#sensor-testing)
   * [Device division](#device-division)
     + [nRF24L01](#nrf24l01)
     + [Arduino Nano for sensing](#arduino-nano-for-sensing)
     + [Arduino Uno for execution](#arduino-uno-for-execution)
+      - [HC-06 for bluetooth](#hc-06-for-bluetooth)
+      - [Servo motors](#servo-motors)
+  * [GUI](#gui)
+    + [Processing and computer app](#processing-and-computer-app)
+      - [Sliders](#sliders)
+      - [Bluetooth decode](#bluetooth-decode)
+      - [Code](#code)
+    + [Mobile app](#mobile-app)
+  * [Data logging and storage](#data-logging-and-storage)
+    + [Esp 8266](#esp-8266)
+    + [DHT 11](#dht-11)
+    + [MySQL Database](#mysql-database)
+    + [POST Request](#post-request)
+    + [Data visualizing](#data-visualizing)
+  * [Make it more compact](#make-it-more-compact)
+    + [Sensors cable](#sensors-cable)
+    + [Reading station](#reading-station)
+    + [Power supply](#power-supply)
   * [Conclusions and future developments](#conclusions-and-future-developments)
+  * [References](#references)
   * [Authors](#authors)
 
 ## Prerequisites
@@ -835,13 +858,294 @@ For the visualization of the data we relied on the [Highcharts](https://www.high
 
 ### Esp 8266
 
+We have added a second device in order to make the system completely modular allowing you to add this step to save data remotely if you wish.
+The NodeMCU is an open source platform developed specifically for the IOT, It includes a firmware that works through the ESP8266 SoC Wi-Fi module and hardware with the ESP-12E module base. To communicate with the computer it uses a CH340 chip.
+
+The board is very powerful and we could have used it directly instead of arduino nano however we wanted to leave the modular system with the possibility of adding or not this functionality.
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esppinout.png" alt = "esp8266" width = "500"/>
+
+To read the data from Arduino Nano we have implemented a serial software on pin 3 and 4 transmitting the data with the same coding logic used in the previous steps.
+From the side of the Arduino nano:
+
+```c
+void trasmitt (String param, String val) {
+    invio = param + String(val);
+    mySeriale.println(invio);
+}
+```
+
+By passing it the different parameters such as `trasmitt("T", String(tempmpu))`.
+
+On the ESP side we initially cleaned the string of extreme formatting characters (`decodeserial()`) and then passed it to a second function that takes care of transforming it into an char array (`process()`) and finally the actual decoding by updating the variables (`analizestring()`).
+
+Moreover the device was powered by the 5V of the Arduino Nano in order to switch them on together. 
+
+We also implemented software serial on the nodeMCU with a dedicate library.
+```c
+#include <SoftwareSerial.h>
+SoftwareSerial Esp_serial(D3, D4);
+```
+
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/esp8266_schema.png" alt = "esp8266" width = "1000"/>
 
 ### DHT 11 
+
+An ambient humidity and temperature sensor has been added. A DHT11 read using the Adafruit library for DHT sensors.
+
+We have implemented this in a dedicated library:
+
+```c
+#include "DHT.h"
+#define DHTTYPE DHT11   // DHT 11
+const int DHTPin = D5;
+DHT dht(DHTPin, DHTTYPE);
+float h;
+float t;
+unsigned long timea=0;
+
+void letturadht() {
+   if (millis() - timea > 500) {
+    h = dht.readHumidity();
+    t = dht.readTemperature();
+    Serial.println(h);
+    Serial.println(t);
+  timea=millis();
+   }
+}
+```
 
 
 ### MySQL Database
 
+On the server side we have created a dedicated database with a custom user. We will need this data (`db_name` and `username`) to implement the code after.
+
+Using phpMyAdmin we have created a table ready to accept all the variables of interest:
+
+```sql
+CREATE TABLE Sensor (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tempmpu VARCHAR(10),
+    angle VARCHAR(10),
+    average VARCHAR(10),
+    bpm VARCHAR(10),
+    soglia VARCHAR(10),
+    temp VARCHAR(10),
+    hum VARCHAR(10),
+    reading_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+```
+
+### POST Request
+
+To send data we use HTTP POST request. By design, the POST request method requests that a web server accepts the data enclosed in the body of the request message, most likely for storing it.
+
+We must therefore connect the esp 8266 to the internet through the wifi library. You must also include a library for HTTP.
+
+A function has been implemented that repeatedly sends a text message containing the variables concatenated in a string that the server will decode and position the data correctly.
+
+```c
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+//timer
+unsigned long t2 = 0;
+unsigned long dt = 0;
+unsigned long t3 = 200;//update database every
+
+void servercall () {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(serverName);    
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    dt = millis() - t2;
+    if (dt >= t3) {
+      String httpRequestData = "api_key=" + apiKeyValue + "&tempmpu=" + String(tempmpu)
+                               + "&angle=" + String(angle) + "&average=" + String(average) 
+                               +  "&bpm=" + String(BPM) + "&soglia=" + String(soglia)
+                               + "&temp=" + String(t) + "&hum=" + String(h) + "";
+      int httpResponseCode = http.POST(httpRequestData);
+      t2 = millis();
+    }
+    http.end();
+  }
+}
+```
+
+Sensitive data such as wifi passwords and database usernames are saved in the `sensdata.h` file.
+
+So the main code is as follows:
+
+```c
+#include "serialreceive.h"
+#include "dhtread.h"
+#include "wifidata.h"
+void setup() {
+  Serial.begin(9600); 
+  Esp_serial.begin(9600); 
+  dht.begin();
+  WiFi.begin(ssid, password);
+  Serial.println("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println(".");
+  }
+  Serial.println(WiFi.localIP());
+}
+void loop() {
+  letturadht();
+  servercall();
+  decodeserial();
+  delay(1);
+}
+```
+
+A php page is called up on the server and takes care of decoding the data. 
+The function takes care of receiving the complete string and identifying the various concatenated variables in the prescribed order, then absorbing them in the reference column by inserting it in the table. It also marks the time of insertion.
+
+```php
+<?php
+
+$servername = "localhost";
+$dbname = "dbname";
+$username = "username";
+$password = "user_pw";
+$api_key_value = "APIKEY";
+$api_key = $tempmpu = $angle = $average = $bpm = $soglia = $temp = $hum = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $api_key = test_input($_POST["api_key"]);
+    if($api_key == $api_key_value) {
+        $tempmpu = test_input($_POST["tempmpu"]);
+        $angle = test_input($_POST["angle"]);
+        $average = test_input($_POST["average"]);
+        $bpm = test_input($_POST["bpm"]);
+        $soglia = test_input($_POST["soglia"]);
+        $temp = test_input($_POST["temp"]);
+        $hum = test_input($_POST["hum"]);
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        } 
+        $sql = "INSERT INTO Sensor (tempmpu, angle, average, bpm, soglia, temp, hum)
+        VALUES ('" . $tempmpu . "', '" . $angle . "', '" . $average . "',
+                '" . $bpm . "','" . $soglia . "','" . $temp . "','" . $hum . "')";
+        if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } 
+        else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+        $conn->close();
+    }
+    else {
+        echo "Wrong API Key provided.";
+    }
+}
+else {
+    echo "No data posted with HTTP POST.";
+}
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+```
+
 ### Data visualizing 
+
+To read the data another php page is called. The code is divided into three sections. The first takes care of taking data from the database, a second takes care of the HTLM structures and a third of the graphs with the Highchart libraries.
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/datachart.png" alt = "datachart" width = "1000"/>
+
+The web page with the data is accessible at the [following link]() or with this short link: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelettronica). 
+
+The web page is password protected with a php algorithm, insert `elettronica`.
+
+A structure php page has been created in different sections. 
+
+A first section deals with calling the database and reading the latest values. Yhis is also contained in the `call.php` file.
+Then it saves the data in variables that will be recalled from the graphs. Obviously we are talking about arrays.
+
+```php
+$readings_time = array_column($sensor_data, 'reading_time');
+$tempmpu = json_encode(array_reverse(array_column($sensor_data, 'tempmpu')), JSON_NUMERIC_CHECK);
+$angle = json_encode(array_reverse(array_column($sensor_data, 'angle')), JSON_NUMERIC_CHECK);
+$average = json_encode(array_reverse(array_column($sensor_data, 'average')), JSON_NUMERIC_CHECK);
+$bpm = json_encode(array_reverse(array_column($sensor_data, 'bpm')), JSON_NUMERIC_CHECK);
+$soglia = json_encode(array_reverse(array_column($sensor_data, 'soglia')), JSON_NUMERIC_CHECK);
+$temp = json_encode(array_reverse(array_column($sensor_data, 'temp')), JSON_NUMERIC_CHECK);
+$hum = json_encode(array_reverse(array_column($sensor_data, 'hum')), JSON_NUMERIC_CHECK);
+$reading_time = json_encode(array_reverse($readings_time), JSON_NUMERIC_CHECK);
+```
+
+Then there is the html structure in which we have put different containers with their own style to organize the layout. 
+
+```css
+   body {
+      min-width: 310px;
+    	max-width: 90%;
+    	height: 500px;
+      margin: 0 auto;
+    }
+  .container { 
+    position: center;
+    column-count: 2;
+    column-width: 50%;
+    padding-top: 50px;
+    }
+```
+
+By recalling the variables containing the data, the graphs are built using the highcharts libraries and therefore with a javascript snippet such as:
+
+```js
+// ---
+var tempmpu = <?php echo $tempmpu; ?>;
+// ...
+var reading_time = <?php echo $reading_time; ?>;
+// ---
+var chartT = new Highcharts.Chart({
+  chart:{ renderTo : 'chart-tempmpu', zoomType: 'x', panning: true, panKey: 'shift' },
+  title: { text: 'Temperature' },
+  series: [{ showInLegend: false, data: tempmpu }],
+  plotOptions: {line: { animation: false, dataLabels: { enabled: false } }, series: { color: '#C80303' }},
+  xAxis: { type: 'datetime', labels: { enabled: false }, categories: reading_time },
+  yAxis: {title: { text: 'Temperature (Celsius)' } },
+  credits: { enabled: false }
+});
+// ...
+```
+
+To this is added an additional algorithm to protect the display of the graphs with a password:
+
+```php
+$password = 'elettronica';
+// -------------------------
+$pwd = isset($_GET['pwd']) ? $_GET['pwd'] : false;
+if (!$pwd || $pwd != $password) {
+  ?>
+<form method="get" action="<?php echo $_SERVER['PHPSELF']; ?>">
+<table border="0" cellspacing="0" cellpadding="10">
+<?php if ($pwd !== false): ?><tr class="errore"><td colspan="3">La password inserita non è corretta!</td></tr><?php endif; ?>
+<tr>
+  <td>Password</td>
+  <td><input type="password" name="pwd" style="width: 180px;"/></td>
+  <td><input type="submit" value="Entra"/></td>
+</tr>
+</table>
+</form>  
+  <?php  
+}else{ 
+  ?>
+    // ALL THE CONTENTS
+  <?php  
+}
+?>
+```
+
+The graphs are widely customizable in particular the possibility of zooming in a certain time interval and scrolling along the time axis has been activated. It is also possible to select a single value and read other information such as the save time
+
+<img src= "https://github.com/mastroalex/progelettronica/blob/main/images/zoomchart.png" alt = "zoomchart" width = "800"/>
 
 ## Make it more compact
 
@@ -912,6 +1216,14 @@ In conclusion, the entire data reading system looks like this:
 - [Anatomy of The DIY Heart Rate Monitor](https://pulsesensor.com/blogs/news/6326816-anatomy-of-the-diy-heart-rate-monitor) 
 - [HC 06 per Arduino ](https://www.giuseppecaccavale.it/arduino/hc-06-bluetooth-arduino/)
 - [Elettrodi Top Trace](https://www.elettromedicali.it/diagnostica/elettrocardiografi/elettrodi-monouso-per-ecg/prodotto-elettrodi-pregellati-in-foam-per-ecg-e-stress-test-36x42-mm-solid-gel-confez-da-50pz/) 
-- [LCD I2C Lib](https://win.adrirobot.it/display_lcd/LCD_keypad_arduino/lcd_libreria_liquidcrystal_I2C.htm)
+- [HTTP POST](https://en.wikipedia.org/wiki/POST_(HTTP))
+- [tempcontrol.it](https://github.com/mastroalex/tempcontrol)
+- [Il manuale di Arduino](https://www.zeppelinmaker.it/il-manuale-di-arduino/?v=532773df6f8a)
+- [Programmare](https://www.zeppelinmaker.it/programmare-2/?v=532773df6f8a)
+- [PHP Pwd](https://www.mrw.it/php/pagina-protetta-password_11675.html)
 
 ## Authors 
+
+- Mastrofini Alessandro
+- Rago Miriana
+- Volpato Rebecca
