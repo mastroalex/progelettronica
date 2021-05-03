@@ -7,7 +7,6 @@ public class Serialcomunication extends Grafico {
 public long ti2=0; 
 
 
-
  int y2=95, y4=245;
   public Serialcomunication() {
   }
