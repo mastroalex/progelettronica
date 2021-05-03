@@ -1,8 +1,8 @@
 #ifndef sensdata
 #define sensdata
 // Replace with your network credentials
-const char* ssid = "Casa Mastrofini (Ospite)";
-const char* password = "ospiteospite";
+const char* ssid = "SSID";
+const char* password = "PWD";
 
 // server mysql
 

@@ -4,7 +4,7 @@
 #include "printerfunzioni.h" // stampante
 #include "EMGsmooth.h" // lettura emg
 #include "radioRF.h" // lettura emg
-
+#include "serialtransmit.h"
 MPU6050 mpu6050(Wire);
 void setup() {
   Serial.begin(9600);
@@ -25,6 +25,7 @@ void setup() {
   radio.setPALevel(RF24_PA_MIN);
   radio.stopListening();
   pinMode(soglia_pin, INPUT);
+  mySeriale.begin(9600);
 }
 void loop() {
   average = averagecalc (); // calcolo media EMG
@@ -40,5 +41,11 @@ void loop() {
   charfortransmission("M", String(average));
   charfortransmission("B", String(BPM));
   charfortransmission("S", String(soglia));
+
+  trasmitt("T", String(tempmpu));
+  trasmitt("A", String(angle));
+  trasmitt("M", String(average));
+  trasmitt("B", String(BPM));
+  trasmitt("S", String(soglia));
   delay(1);
 }

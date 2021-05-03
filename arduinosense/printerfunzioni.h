@@ -91,7 +91,7 @@ void lcdprint() {
     lcd.setCursor(0, 1);
     lcd.print("M");
     lcd.print(average);
-    lcd.setCursor(5, 1);
+    lcd.setCursor(6, 1);
     lcd.print("E");
     lcd.print(analogRead(EMG_pin));
     lcd.setCursor(11, 1);
