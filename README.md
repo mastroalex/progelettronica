@@ -760,7 +760,158 @@ public void assi(){
   text("V(v)", 15, 350);
  }
 ``` 
+#### Icon
 
+The icon was added in order to switch the command so that it is possible to control the clamp with the sliders. The switch allows us to switch to manual control. In order to create the switch we have used the Cp5 library which contains the switch among the examples.
+it was therefore necessary to import the library:
+
+```js
+import controlP5.*;
+ControlP5 cp5;
+``` 
+In the `public class Serialcomunication extends Grafico` we created a function `serialsend()` in which if the manual control is active (`if (pulsante == true)`) and if the mouse is pressed and it is in correspondence with one of the sliders, we can open-close the gripper or rotate it by mapping the position on the slider in the range between 0° and 180° for the gripper and between -90° and 90° for the rotation. Then this value is written as String together with an identification character to the serial port.
+the code is as follows:
+
+```js
+...
+
+ void serialsend() {
+    if (mousePressed) {
+      if (millis()-ti>500) {
+        if (pulsante==true) {
+          if (mousePressed && mouseY < y2+20) {
+            float pinzamap=map(target1, 50, 350, 0, 180);
+            String pinza="P"+str(pinzamap);
+            MyPort.write(pinza);
+            println(pinza);
+          }
+        }
+
+        ti=millis();
+      }
+      if (millis()-ti2>500) {
+        if (pulsante==true) {
+          if (mousePressed && mouseY > y4-20) {
+            float rotazmap=map(target2, 50, 350, -90, 90);
+            String rotaz="R"+ str(rotazmap);
+            MyPort.write(rotaz);
+            println(rotaz);
+          }
+        }
+        ti2=millis();
+      }
+    }
+  }
+  ...
+  
+``` 
+If we click on the icon which has the value “false” by default we give the value `true` and the string `"C1"` is sent on the serial, otherwise if the value is `false` the string `"C0"` is sent on the serial. When the string `"C1"` is read from the serial the boolean variable `controlloapp` is seto to 1 so that the movements of the gripper will be managed by the sliders. 
+Instead if the string `"C0"` is read from the serial the Boolean variable `controlloapp` is set to 0 so that that the movements of the gripper will be managed by values received from the inertial sensor and the emg sensor which means that the manual control is disabled.
+```js
+void icon(boolean theValue) {
+
+  println("got an event for icon", theValue);
+  if (theValue == true) {
+    MyPort.write("C1");
+    pulsante=true;
+  }  
+  if (theValue == false) {
+    MyPort.write("C0");
+    pulsante=false;
+  }
+} 
+``` 
+We have created virtual displays to read the values coming from the sensors. In particular one for the beat, one for the inclination of the gripper, one for the temperature and for the temperature we also drew a thermometer.
+Let’s start with the beat.
+
+#### Bpm
+
+To view the beat we imported the image of a heart inside which the value is written. As for the images used for the sliders we first loaded the image, previously saved in the program folder, and than we pasted it with the `image()` function.
+The continuously updated value of the beat derives from the `text()` function in which as string we have inserted `nfn(Batt, 0)` which transforms the float variable `Batt` containing the values of the beats transmitted via bleutooth by the Arduino Uno into a String.
+```js
+public void cuore(){
+        battitook = loadImage("battitook.png");
+
+  }
+
+...
+public void battito (float Batt){
+  textFont(font24); 
+  fill(250, 0, 0); 
+  text("BPM", x1+xshift+950, y1-10); 
+  fill(0, 0, 0);
+  image(battitook, x1+900, y1+20);
+  text(nfc(Batt, 0), 1017, 150);
+  }
+
+```
+
+#### Roll
+
+In the icon called Roll we have reported the values of the inclination of the gripper. We simply created a rectangle with the `rect()` function inside which we entered the value in the same way as for the beat, this time using the float variable `float Incl`.
+```js
+public void inclinazione(float Incl) {
+    fill(190);
+    stroke(0);
+    strokeWeight(1);
+    rect(700, 70, 180, 140, 7);
+    fill(0, 0, 0);
+    textFont(font24);
+    text("Roll", 760, 40);
+    text(" °", 800, 150);
+    text(nfc(Incl, 1), 770, 150);
+  }
+
+```
+Exactly the same thing was done for the rectangle in which the temperature value is reported, obviously with the appropriate variable and for this we omit the corresponding code.
+
+#### Thermometer
+
+In order to create the thermometer the bulb was drawn first with the function `ellipse()` which draws an ellipse with center X,Y and semi-axis equal to width and height. The bulb is filled with mercury so it has been colored with shade of red.
+Then you have to draw the thermometer which is given by the union of an arc and a rectangle so we have used the functions `arc()` and `rect()`. the function  `arc()` contains different values, in order we have the X and Y position of the center, the width and the height but also the start angle and the end angle. 
+Once the bulb and the thermometer are built the inside of the thermometer is filled with mercury up to a certain point and then a function is defined which allows us to vary the height of the mercury according to the received temperature value. 
+
+The code is as follows:
+
+```js
+public class Termom {
+  float y, h;
+  
+  public Termom() {
+  }
+  //Disegno termometro
+  public void bulbo() {
+    // Bulbo
+    fill(200, 0, 0);
+    smooth();
+    stroke(0, 46, 200);
+    strokeWeight(8);
+    ellipse(250+1000, 250+300, 58, 50);
+  }
+
+  public void termometro() {
+    //Termometro
+    noStroke();
+    fill(0, 46, 200);
+    arc(250+1000, 30+300, 30, 20, PI, PI+PI);
+    rect(235.2+1000, 30+300, 30, 200);
+  }
+
+  public void mercurio() {
+    // Disegno solco mercurio
+    fill(250, 250, 250);
+    rect(245+1000, 30+300, 10, 200);
+    
+    // Mercurio
+    fill(200, 0, 0);
+    smooth();
+    strokeWeight(0);
+    y= -2.0*tempC + 170; 
+    h = 240-y; 
+    rect(245.2+1000, y+300, 10, h);
+  }
+```
+MODIFICARE LA FUNZIONE MERCURIO E AGGIUNGERE CENTIGRADE SCALE
 
 #### Bluetooth decode 
 
