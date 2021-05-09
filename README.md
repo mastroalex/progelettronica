@@ -713,7 +713,55 @@ if (mousePressed && mouseY < y1+20) {
 
 In order to view the data coming from the EMG we have created a graph on Processing in which we can see the trend recorded by the EMG.
 To improve the code we have created multiple classes, so that the main sketch is more compact. For the graph we have `public class Grafico`.
-  
+to build the graph the axes were drawn first, by using the function `line(x1, y1, x2, y2)`, the values contained inside indicate the position in which the graph has been placed and also the length of the x and y axes which represents respectively the time t(s) and the amplitude V of the oscillations of the EMG.
+
+Inside `public void setdat()` we define an array of 1000 elements and through a for cycle we have access to the element of the array which are the values from the EMG remapped between 0 and 300 (which corresponds to the height of the y axis). Then we define another array which contans as much element as the previous one, again we access to the elements through a for cycle and we define a float variable called `passo` which is the length of the x axis divided by the float variable `data.lenght`. So the value assumed by the elements of the `datax[i]` array is 50 + i * passo.
+the code is as follows:
+
+```js
+public class Grafico {
+public float[] datax; 
+ public Grafico(){}
+ 
+ public void setdati(){
+ data = new float[1000];
+  for (int i=0; i < data.length; i++) {
+    data[i] = 100;
+  }
+  datax = new float[data.length];
+  for (int i=0; i < datax.length; i++) {
+    float passo=900/float(data.length);
+    datax[i] = 50+i*passo;
+  }
+ }
+```  
+So once we have defined the relationship between the data received and the x axis we can draw the line which allows us to view the trend of the values detected by the EMG with `line(datax[i], 650-data[i], datax[i+1], 650-data[i+1])`. Once the curve reaches the end of the x axis restart from the origin. 
+The direction of the axes indicated by the tip of an arrow and have been created with the triangle function in which the six values represents the position of the three vertices of the triangle.
+
+```js
+public void assi(){
+ for (int i=0; i<data.length-1; i++) {
+    fill(55, 200, 50);
+    line(datax[i], 650-data[i], datax[i+1], 650-data[i+1]);
+  }
+
+
+  stroke(0, 0, 250);
+  strokeWeight(2);
+  //line(50,800-V,950,800-V);
+  stroke(0, 0, 0);
+  line(50, 350, 50, 650);
+  line(50, 650, 950, 650);
+  fill(0, 0, 0);
+  triangle(48, 350, 52, 350, 50, 340);
+  triangle(940, 648, 940, 652, 950, 650);
+  textSize(12);
+  text("t(s)", 965, 665);
+  text("V(v)", 15, 350);
+ }
+``` 
+
+
 #### Bluetooth decode 
 
 Bluetooth performs two important functions.
