@@ -709,6 +709,11 @@ if (mousePressed && mouseY < y1+20) {
   
   <img src= "https://github.com/mastroalex/progelettronica/blob/main/images/graphics%20window.png" alt = "slider" width = "300"/>
   
+#### Graphic
+
+In order to view the data coming from the EMG we have created a graph on Processing in which we can see the trend recorded by the EMG.
+To improve the code we have created multiple classes, so that the main sketch is more compact. For the graph we have `public class Grafico`.
+  
 #### Bluetooth decode 
 
 Bluetooth performs two important functions.
