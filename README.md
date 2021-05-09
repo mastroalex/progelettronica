@@ -37,6 +37,11 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
   * [GUI](#gui)
     + [Processing and computer app](#processing-and-computer-app)
       - [Sliders](#sliders)
+      - [Graphic](#graphic)
+      - [Icon](#icon)
+      - [Bpm](#bpm)
+      - [Roll](#roll)
+      - [Thermometer](#thermometer)
       - [Bluetooth decode](#bluetooth-decode)
       - [Code](#code)
     + [Mobile app](#mobile-app)
@@ -827,7 +832,7 @@ Let’s start with the beat.
 #### Bpm
 
 To view the beat we imported the image of a heart inside which the value is written. As for the images used for the sliders we first loaded the image, previously saved in the program folder, and than we pasted it with the `image()` function.
-The continuously updated value of the beat derives from the `text()` function in which as string we have inserted `nfn(Batt, 0)` which transforms the float variable `Batt` containing the values of the beats transmitted via bleutooth by the Arduino Uno into a String.
+The continuously updated value of the beat derives from the `text()` function in which as string we have inserted `nfn(Batt, 0)` which transforms the float variable `Batt` containing the values of the beats transmitted via bleutooth by the Arduino Uno into a String, with 0 digit to the right of the decimal point.
 ```js
 public void cuore(){
         battitook = loadImage("battitook.png");
