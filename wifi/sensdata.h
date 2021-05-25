@@ -7,7 +7,7 @@ const char* password = "PWD";
 // server mysql
 
 // REPLACE with your Domain name and URL path or IP address with path
-const char* serverName = "http://tempcontrol.it/progelettronica/post-data.php";
+const char* serverName = "http://tempcontrol.it/progelettronica/post-data_data.php";
 
 String apiKeyValue = "tPmAT5Ab3j7A8";
 
