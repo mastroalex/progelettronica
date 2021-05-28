@@ -1056,13 +1056,43 @@ void icon(boolean theValue) {
 
 ### Mobile app
 
-To create application for smartphone has been used [MIT App Inventor](https://appinventor.mit.edu). App invetor allow us to develop a complete and functional app with an easy process however this application works only on Android devices. 
+To create application for smartphone has been used [MIT App Inventor](https://appinventor.mit.edu). App inventor allows us to develop a complete and functional app with an easy process however this application works only on Android devices. 
 
 The functionalities are the same as those of the computer app integrated with portability and ubiquity of smartphone.  
 
 To develop application the first thing to do is to add all the necessary components like list picker, label, slider, bluetooth client, clock and buttons. 
 
-<img src= "images/.png" alt = "" width = "500"/>
+The Blocks have been created separately step by step. As follows is the result of the various tests performed. The graphic has been ultimated at the last. 
+
+First of all it is necessary to create the structure that allows to select the bluetooth mac address of bluetooth module (HC-05).
+
+<img src= "images/connection.png" alt = "connection" width = "600"/>
+
+Then in order to change from automatic to manual control has been created a switch like block that send `C0`or `C1`with the same coding rules of processing app. 
+
+<img src= "images/control.png" alt = "control" width = "600"/>
+
+When manual control is on (`appcontrol == true`) it is possibile to send data. For example has been used the gyroscope of the smartphone to simulate the rotation of the clamp. 
+
+<img src= "images/send_data.png" alt = "send_data" width = "600"/>
+
+To receive data it is necessary to request the availability of pipe and to save data in new variables.
+
+<img src= "images/blt.png" alt = "blt" width = "600"/>
+
+
+According to the type of the variables provided by App Inventor it has been necessary to split the string containing the received data into a `list`. This list `decode_text` contains different elements each of which represents a new codified upgraded data. Then each element has been analized by control the first character and saving the corrisponding value into the relative variable. 
+
+<img src= "images/receive.png" alt = "receive" width = "600"/>
+
+At this point has been used a test graphic interface to check that all works. 
+
+<img src= "images/.png" alt = "mobile1" width = "600"/>
+
+
+
+
+
 
 
 ## Data logging and storage
