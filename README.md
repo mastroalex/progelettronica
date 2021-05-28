@@ -1062,6 +1062,7 @@ The functionalities are the same as those of the computer app integrated with po
 
 To develop application the first thing to do is to add all the necessary components like list picker, label, slider, bluetooth client, clock and buttons. 
 
+<img src= "images/.png" alt = "" width = "500"/>
 
 
 ## Data logging and storage
