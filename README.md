@@ -1087,7 +1087,19 @@ According to the type of the variables provided by App Inventor it has been nece
 
 At this point has been used a test graphic interface to check that all works. 
 
-<img src= "images/.png" alt = "mobile1" width = "600"/>
+<img src= "images/honor1.png" alt = "mobile1" width = "1000"/>
+
+Graphic layout has been ultimated.
+
+The final block structure:
+
+<img src= "images/blocchi_App_Inventor.png" alt = "mobile1" width = "1000"/>
+
+Final app layout:
+
+<img src= "images/honor2.png" alt = "mobile1" width = "1000"/>
+
+
 
 
 
