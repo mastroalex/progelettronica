@@ -1078,12 +1078,12 @@ When manual control is on (`appcontrol == true`) it is possibile to send data. F
 
 To receive data it is necessary to request the availability of pipe and to save data in new variables.
 
-<img src= "images/blt.png" alt = "blt" width = "600"/>
+<img src= "images/blt.png" alt = "blt" width = "1000"/>
 
 
 According to the type of the variables provided by App Inventor it has been necessary to split the string containing the received data into a `list`. This list `decode_text` contains different elements each of which represents a new codified upgraded data. Then each element has been analized by control the first character and saving the corrisponding value into the relative variable. 
 
-<img src= "images/receive.png" alt = "receive" width = "600"/>
+<img src= "images/receive.png" alt = "receive" width = "1000"/>
 
 At this point has been used a test graphic interface to check that all works. 
 
