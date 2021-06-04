@@ -1099,12 +1099,44 @@ Final app layout:
 
 <img src= "images/honor2.png" alt = "mobile1" width = "1000"/>
 
+___
 
+### iOS App 
 
+To develop the application for devices with iOS mobile system it is first necessary to replace the bluetooth protocol with the BLE protocol. The Bluetooth Low Energy is independent of classic Bluetooth and has no compatibility, but they can coexists. BLE is intended to provide considerably reduced power consumption and cost while maintaining a similar communication range.
+All Bluetooth Low Energy devices use the Generic Attribute Profile (GATT). The application programming interface offered by a Bluetooth Low Energy aware operating system will typically be based around GATT concepts. GATT has the following terminology:
+- Client, a device that initiates GATT commands and requests, and accepts responses, for example, a computer or smartphone.
+- Server, a device that receives GATT commands and requests, and returns responses, for example, a temperature sensor.
+- Characteristic, a data value transferred between client and server, for example, the current battery voltage.
+- Service, a collection of related characteristics, which operate together to perform a particular function. For instance, the Health Thermometer service includes characteristics for a temperature measurement value, and a time interval between measurements.
+- Descriptor, provides additional information about a characteristic. 
 
+<img src= "images/gatt.png" alt = "GATT" width = "250"/>
 
+Services, characteristics, and descriptors are collectively referred to as attributes, and identified by UUIDs. A universally unique identifier (UUID) is a 128-bit (16 bytes) number that is guaranteed (or has a high probability) to be globally unique. For efficiency, and because 16 bytes would take a large chunk of the 27-byte data payload length of the Link Layer, the BLE specification adds two additional UUID formats: 16-bit and 32-bit UUIDs. These shortened formats can be used only with UUIDs that are defined in the Bluetooth specification (i.e., that are listed by the Bluetooth SIG as standard Bluetooth UUIDs).
 
+To reconstruct the full 128-bit UUID from the shortened version, insert the 16- or 32-bit short value (indicated by xxxxxxxx, including leading zeros) into the Bluetooth Base UUID: `xxxxxxxx-0000-1000-8000-00805F9B34FB`.
 
+___
+
+A DSDTech SH-HC-08 module was used. The connection with Arduino remains the same as the HC-05 module using the default serial port on pins 0-1. 
+On the iOS device the LightBlue application was used to read the module information such as Characteristic UUID.
+
+<img src= "images/uuid.png" alt = "UUID" width = "250"/>
+
+The DSD TECH Bluetooth application was also used to test the device for both reading and writing:
+
+<img src= "images/dsdapp.png" alt = "DSDAPP" width = "250"/>
+
+So we moved on [Thunkable](https://thunkable.com/#/) to develop the app. Thunkable allows us to develop an app in the same way as MIT App Invetor but also compatible with iOS. 
+
+The graphical interface was designed in a similar way to what was done for android with App Inventor. The differences lie in the bluetooth communication. 
+
+After several problems we have prepared a simplified interface with different labels and buttons to test the functionality. When the `Scan` button is clicked, the devices are scanned and shown in the first label. Then with the `Connect` button you connect to the default device (without the possibility of choosing others) and finally there is the possibility to send / receive data each time the `Send` button is pressed.
+
+<img src= "images/thunk.png" alt = "Thunkable" width = "800"/>
+
+So we tested the app.
 
 
 ## Data logging and storage
