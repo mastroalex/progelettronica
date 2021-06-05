@@ -4,6 +4,8 @@
 The idea of the project is to show the concept and how to control gripper and rotation via sensor signals. The structure is very simple and made in full of maker and DIY philosophy, only with recycled objects. 
 An example in the following figure.
 
+Demonstration: [https://youtu.be/k1hNBbgfAyE](https://youtu.be/k1hNBbgfAyE)
+
 <img src="extra/cad/Untitled.JPG" alt="structure" width="400"/> <img src="extra/cad/Untitled3.JPG" alt="structure" width="400"/> 
 
 The gripper has been further simplified in different version but the same project could be realized by purchasing a robot gripper. 
