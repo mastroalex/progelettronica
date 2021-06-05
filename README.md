@@ -64,19 +64,26 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
 ## Prerequisites
 
 * Arduino UNO
+* Arduino Nano
 * GY-521
 * EMG Sensor 
 * EMG Electrodes
 * Microservo motor SG90
 * DS18B20 Sensor
 * nRF24L01
-
+* HC-05(06)
+* ESP8266 Node Mcu
+* TTL Converter 3,3-5V
+* RJ45 Connectors & Cat5e cable
+* LCD Display (I2C)
+* Trimmer
+* DHT11
 _________________
 
 * [MPU6050_tockn](https://github.com/Tockn/MPU6050_tockn) - Arduino library for easy communicating with the MPU6050
 * nRF24L01 Library 
 * Vectorial graphic software
-
+* DHT Library
 
 * MySQL server
 * Web domain 
