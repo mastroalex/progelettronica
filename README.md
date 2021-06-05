@@ -1541,6 +1541,6 @@ Finally, the reading station could be redesigned on PCB in order to have a singl
 
 ## Authors 
 
-- Mastrofini Alessandro
+- [Mastrofini Alessandro](https://github.com/mastroalex)
 - Rago Miriana
 - Volpato Rebecca
