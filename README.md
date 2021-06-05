@@ -34,19 +34,10 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
     + [nRF24L01](#nrf24l01)
     + [Arduino Nano for sensing](#arduino-nano-for-sensing)
     + [Arduino Uno for execution](#arduino-uno-for-execution)
-      - [HC-06 for bluetooth](#hc-06-for-bluetooth)
-      - [Servo motors](#servo-motors)
   * [GUI](#gui)
     + [Processing and computer app](#processing-and-computer-app)
-      - [Sliders](#sliders)
-      - [Graphic](#graphic)
-      - [Icon](#icon)
-      - [Bpm](#bpm)
-      - [Roll](#roll)
-      - [Thermometer](#thermometer)
-      - [Bluetooth decode](#bluetooth-decode)
-      - [Code](#code)
     + [Mobile app](#mobile-app)
+    + [iOS App](#ios-app)
   * [Data logging and storage](#data-logging-and-storage)
     + [Esp 8266](#esp-8266)
     + [DHT 11](#dht-11)
@@ -60,6 +51,8 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
   * [Conclusions and future developments](#conclusions-and-future-developments)
   * [References](#references)
   * [Authors](#authors)
+
+
 
 ## Prerequisites
 
