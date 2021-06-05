@@ -1496,6 +1496,22 @@ In conclusion, the entire data reading system looks like this:
 
 ## Conclusions and future developments
 
+The temperature sensor does not report perfectly the temperature of the subject and could be replaced with a sensor in contact with the skin and possibly an algorithm designed to bring the peripheral temperature back to the central one.
+
+The use of a more advanced EMG sensor such as MyoWare allows you to reduce noise and have a more compact structure.
+
+To develop an application for iOS it is necessary to replace the bluetooth module with one with Bluetooth Low Energy such as the SH-HC-08 module. 
+
+To increase data security with a view to respecting privacy and the GDPR regulations for the processing of personal data online, it is certainly necessary to provide a security algorithm that is much more serious than simply hiding the content of the page with the php script. In addition, it may be advisable to encrypt the data even before sending it to the server and to activate the HTTPS protocol on the web page.
+
+For the environmental temperature and humidity it may be appropriate to replace the DHT11 with a DHT22, thus obtaining a sensitivity of 0.5 ° C and 2% RH.
+
+For the power supply, instead of three power supplies, a single 18V power supply could be used with a voltage divider to obtain ± 9V.
+
+Finally, the reading station could be redesigned on PCB in order to have a single more compact plane.
+
+
+
 ## References
 
 - [nRF24L01 Wireless RF Module](https://components101.com/wireless/nrf24l01-pinout-features-datasheet)
