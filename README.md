@@ -34,19 +34,10 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
     + [nRF24L01](#nrf24l01)
     + [Arduino Nano for sensing](#arduino-nano-for-sensing)
     + [Arduino Uno for execution](#arduino-uno-for-execution)
-      - [HC-06 for bluetooth](#hc-06-for-bluetooth)
-      - [Servo motors](#servo-motors)
   * [GUI](#gui)
     + [Processing and computer app](#processing-and-computer-app)
-      - [Sliders](#sliders)
-      - [Graphic](#graphic)
-      - [Icon](#icon)
-      - [Bpm](#bpm)
-      - [Roll](#roll)
-      - [Thermometer](#thermometer)
-      - [Bluetooth decode](#bluetooth-decode)
-      - [Code](#code)
     + [Mobile app](#mobile-app)
+    + [iOS App](#ios-app)
   * [Data logging and storage](#data-logging-and-storage)
     + [Esp 8266](#esp-8266)
     + [DHT 11](#dht-11)
@@ -61,22 +52,31 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
   * [References](#references)
   * [Authors](#authors)
 
+
+
 ## Prerequisites
 
 * Arduino UNO
+* Arduino Nano
 * GY-521
 * EMG Sensor 
 * EMG Electrodes
 * Microservo motor SG90
 * DS18B20 Sensor
 * nRF24L01
-
+* HC-05(06)
+* ESP8266 Node Mcu
+* TTL Converter 3,3-5V
+* RJ45 Connectors & Cat5e cable
+* LCD Display (I2C)
+* Trimmer
+* DHT11
 _________________
 
 * [MPU6050_tockn](https://github.com/Tockn/MPU6050_tockn) - Arduino library for easy communicating with the MPU6050
 * nRF24L01 Library 
 * Vectorial graphic software
-
+* DHT Library
 
 * MySQL server
 * Web domain 
@@ -87,6 +87,9 @@ _________________
 ## Getting started
 
 ## How to use
+
+Watch> [https://youtu.be/k1hNBbgfAyE](https://youtu.be/k1hNBbgfAyE)
+
 ### GY-521 
 GY-521 is a module that manages the MPU-6050 sensor, a chip manufactured by Invensense, which is a IMU (Inertia Measurement Unit) sensor based on MEMS technology that contains a three-axis accelerometer and a three-axis gyroscope embedded in a single chip. This is a 6 DOF (degrees of freedom) IMU sensor so it gives six values as output. It also contains a temperature sensor.
 
@@ -1140,6 +1143,9 @@ After several problems we have prepared a simplified interface with different la
 
 So we tested the app.
 
+> At this point there is an issue with the app **which appears to be due to the thunkable's BLE interface**. Doing several tests on Android it turns out an `undefined` error during scanning. On iOS, on the other hand, the scanning and connection are perfectly successful but it is not possible to send / receive the data, which works with other apps with a serious interface. 
+
+We are awaiting answers on Thunkable support. Searching the forum for references to problems in the BLE blocks.
 
 ## Data logging and storage
 
@@ -1490,6 +1496,22 @@ In conclusion, the entire data reading system looks like this:
 
 ## Conclusions and future developments
 
+The temperature sensor does not report perfectly the temperature of the subject and could be replaced with a sensor in contact with the skin and possibly an algorithm designed to bring the peripheral temperature back to the central one.
+
+The use of a more advanced EMG sensor such as MyoWare allows you to reduce noise and have a more compact structure.
+
+To develop an application for iOS it is necessary to replace the bluetooth module with one with Bluetooth Low Energy such as the SH-HC-08 module. 
+
+To increase data security with a view to respecting privacy and the GDPR regulations for the processing of personal data online, it is certainly necessary to provide a security algorithm that is much more serious than simply hiding the content of the page with the php script. In addition, it may be advisable to encrypt the data even before sending it to the server and to activate the HTTPS protocol on the web page.
+
+For the environmental temperature and humidity it may be appropriate to replace the DHT11 with a DHT22, thus obtaining a sensitivity of 0.5 ° C and 2% RH.
+
+For the power supply, instead of three power supplies, a single 18V power supply could be used with a voltage divider to obtain ± 9V.
+
+Finally, the reading station could be redesigned on PCB in order to have a single more compact plane.
+
+
+
 ## References
 
 - [nRF24L01 Wireless RF Module](https://components101.com/wireless/nrf24l01-pinout-features-datasheet)
@@ -1519,6 +1541,6 @@ In conclusion, the entire data reading system looks like this:
 
 ## Authors 
 
-- Mastrofini Alessandro
+- [Mastrofini Alessandro](https://github.com/mastroalex)
 - Rago Miriana
 - Volpato Rebecca
