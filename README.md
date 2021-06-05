@@ -1140,6 +1140,11 @@ After several problems we have prepared a simplified interface with different la
 
 So we tested the app.
 
+> At this point there is an issue with the app **which appears to be due to the thunkable's BLE interface**. Doing several tests on Android it turns out an `undefined` error during scanning. On iOS, on the other hand, the scanning and connection are perfectly successful but it is not possible to send / receive the data, which works with other apps with a serious interface. 
+
+<img src= "images/thunk_pb.png" alt = "Thunkable" width = "250"/>
+
+We are awaiting answers on Thunkable support. Searching the forum for references to problems in the BLE blocks.
 
 ## Data logging and storage
 
