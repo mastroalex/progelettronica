@@ -1,9 +1,8 @@
 from tkinter import *
+import serial
 import time
 
 bottone=True
-
-
 
 def btn_clicked():
     global bottone
@@ -28,9 +27,26 @@ def sroll_changed(event):
     time.sleep(0.1)
     print("R"+str(sroll.get()))
 
+arduino = serial.Serial('/dev/tty.HC-05-SerialPort', 9600)
+time.sleep(1)
+
+print("pronto a ricevere")
+
+def arduinoreceive():
+    testo= arduino.readline()
+    testo=testo.rstrip()
+    testo=testo.decode("utf-8") 
+    print(testo)
+    canvas.itemconfigure(text,text=str(testo))
+    window.after(500, arduinoreceive)
+    if testo[0]=="T":
+        print("Temperatura = "+testo.replace('T', ''))
+        canvas.itemconfigure(temp_label,text=testo.replace('T', '')+" ° C")
+
+
 
 window = Tk()
-window.title('Interfaccia Grafica')
+window.title('Interfaccia grafica')
 window.geometry("1259x648")
 window.configure(bg = "#ffffff")
 canvas = Canvas(
@@ -41,13 +57,24 @@ canvas = Canvas(
     bd = 0,
     highlightthickness = 0,
     relief = "ridge")
+
 canvas.place(x = 0, y = 0)
 
-canvas.create_text(
+
+  
+roll=canvas.create_text(
     622.0, 115.0,
     text = "ROLL",
     fill = "#000000",
     font = ("None", int(24.0)))
+
+text=canvas.create_text(
+    100, 600,
+    text = "ROLL",
+    fill = "#000000",
+    font = ("None", int(24.0)))
+
+
 
 
 canvas.create_rectangle(
@@ -60,12 +87,11 @@ canvas.create_rectangle(
     977, 140, 977+137, 140+62,
     fill = "#dedede",
     outline = "")
-
-
 canvas.create_rectangle(
     765, 140, 765+137, 140+62,
     fill = "#dedede",
     outline = "")
+
 
 win = Frame(window)
 
@@ -105,7 +131,7 @@ canvas.create_text(
     fill = "#000000",
     font = ("None", int(24.0)))
 
-canvas.create_text(
+temp_label=canvas.create_text(
     1045.5, 170.5,
     text = "0 °C",
     fill = "#000000",
@@ -142,7 +168,7 @@ canvas.create_text(
     font = ("None", int(24.0)))
 
 
-
+arduinoreceive()
 # Chart
 
 canvas.create_line(canvas.coords(v)[0]-10, canvas.coords(t)[1], canvas.coords(t)[0]-20, canvas.coords(t)[1], arrow='last'  )
