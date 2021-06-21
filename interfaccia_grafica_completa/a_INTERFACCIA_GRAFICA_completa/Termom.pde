@@ -31,7 +31,7 @@ public class Termom {
   smooth();
   strokeWeight(0);
   float y = map(tempC, 0, 50, 0, 175);  //175 è l'altezza tra la tacca 0 e 50
-  h = -y-66;
+  h = -y-66; // valore tra il bublo e la tacca 0
   rect(1245.2, 570, 10, h);
   }
   public void num() {
