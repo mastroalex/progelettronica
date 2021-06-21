@@ -1060,6 +1060,80 @@ void icon(boolean theValue) {
   }
 } 
 ```
+### Python app 
+
+Another possibility is to use Python to develop the application. Python is a more "high level" programming language than most other languages, object oriented, suitable for working quickly and integrating different systems.
+
+<img src= "https://www.python.org/static/img/python-logo.png" alt = "python" width = "200"/>
+
+The [Pyserial](https://pyserial.readthedocs.io/en/latest/#) library for serial communication comes in handy.
+
+To easily develop the graphical interface we relied on [Tkinter Designer](https://github.com/ParthJadhav/Tkinter-Designer) which allows us to convert a design made with [Figma](https://www.figma.com) in drag and drop. 
+We started by simply devising the main window design:
+
+<img src= "images/figma.png" alt = "Figma" width = "600"/>
+
+Then we modified the various blocks manually by introducing the labels and the whole part.
+
+To insert the sliders we have created a Frame in which we have inserted the two sliders. We have inserted all of them with the `.pack ()` method:
+
+```py
+win = Frame(window)
+win.pack(side =LEFT,fill=None, expand=False)
+spinza = Scale(win, from_=0, to=180,orient=HORIZONTAL,command=spinza_changed)
+spinza.pack(side=BOTTOM, padx=120, ipadx=60)
+spinza.set(90)
+sroll = Scale(win, from_=0, to=180,orient=HORIZONTAL,command=sroll_changed)
+sroll.pack(side=BOTTOM, pady=100,  ipadx=60)
+sroll.set(90)
+```
+
+And to send data:
+```py
+def spinza_changed(event):  
+    time.sleep(0.1)
+    print("P"+str(spinza.get()))
+    
+def sroll_changed(event):  
+    time.sleep(0.1)
+    print("R"+str(sroll.get()))
+```
+
+The control button is actually fake as it consists of two images that are interchanged:
+```py
+img0 = PhotoImage(file = f"img0.png")
+img1 = PhotoImage(file = f"img1.png")
+b0 = Button(
+    image = img0,
+    borderwidth = 0,
+    highlightthickness = 0,
+    command = btn_clicked,
+    relief = "flat")
+b0.place(
+    x = 143, y = 79,
+    width = 180,
+    height = 123)
+```
+
+```py
+def btn_clicked():
+    global bottone
+    print("Button Clicked")
+    if (bottone):
+        b0.config(image = img1)
+        print("C1")
+    elif (bottone==False):
+        b0.config(image = img0)
+        print("C0")
+        spinza.set(90)
+        sroll.set(90)
+    bottone=not(bottone)
+    print(bottone)
+```
+
+
+
+
 
 ### Mobile app
 
