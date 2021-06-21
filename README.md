@@ -879,8 +879,9 @@ Exactly the same thing was done for the rectangle in which the temperature value
 #### Thermometer
 
 In order to create the thermometer the bulb was drawn first with the function `ellipse()` which draws an ellipse with center X,Y and semi-axis equal to width and height. The bulb is filled with mercury so it has been colored with shade of red.
-Then you have to draw the thermometer which is given by the union of an arc and a rectangle so we have used the functions `arc()` and `rect()`. the function  `arc()` contains different values, in order we have the X and Y position of the center, the width and the height but also the start angle and the end angle. 
-Once the bulb and the thermometer are built the inside of the thermometer is filled with mercury up to a certain point and then a function is defined which allows us to vary the height of the mercury according to the received temperature value. 
+Then you have to draw the thermometer which is given by the union of an arc and a rectangle so we have used the functions `arc()` and `rect()`. The function  `arc()` contains different values, in order we have the X and Y position of the center, the width and the height but also the start angle and the end angle. 
+Once the bulb and the thermometer are built the inside of the thermometer is filled with mercury. In order to build the mercury column that signals the detected temperature it has been use the function `map(tempC, 0, 50, 0, 175)` which maps che temperature between 0 and 50 degrees in the height of the graduated scale. 
+`h = -y-66` is the offset between the zero and the bulb. 
 
 The code is as follows:
 
@@ -897,32 +898,33 @@ public class Termom {
     smooth();
     stroke(0, 46, 200);
     strokeWeight(8);
-    ellipse(250+1000, 250+300, 58, 50);
+    ellipse(1250, 550, 58, 50);
   }
 
   public void termometro() {
     //Termometro
     noStroke();
     fill(0, 46, 200);
-    arc(250+1000, 30+300, 30, 20, PI, PI+PI);
-    rect(235.2+1000, 30+300, 30, 200);
+    arc(1250, 330, 30, 20, PI, PI+PI);
+    rect(1235.2, 330, 30, 200);
   }
 
   public void mercurio() {
     // Disegno solco mercurio
     fill(250, 250, 250);
-    rect(245+1000, 30+300, 10, 200);
+    rect(1245, 330, 10, 200);
     
     // Mercurio
     fill(200, 0, 0);
     smooth();
     strokeWeight(0);
-    y= -2.0*tempC + 170; 
-    h = 240-y; 
-    rect(245.2+1000, y+300, 10, h);
+    float y= map(tempC, 0, 50, 0, 175); 
+    h = -y-66; 
+    rect(1245.2, 570, 10, h);
   }
 ```
-MODIFICARE LA FUNZIONE MERCURIO E AGGIUNGERE CENTIGRADE SCALE
+The centigrade scale was also added. In particular a large notch has been added every ten degrees and a smaller one halfaway between the two large notches. 
+The notches have been drawn with the `line()` command. 
 
 #### Bluetooth decode 
 
