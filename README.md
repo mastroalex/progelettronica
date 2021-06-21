@@ -36,6 +36,7 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
     + [Arduino Uno for execution](#arduino-uno-for-execution)
   * [GUI](#gui)
     + [Processing and computer app](#processing-and-computer-app)
+    + [Python app](#python-app)
     + [Mobile app](#mobile-app)
     + [iOS App](#ios-app)
   * [Data logging and storage](#data-logging-and-storage)
