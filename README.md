@@ -88,7 +88,7 @@ _________________
 
 ## How to use
 
-Watch> [https://youtu.be/k1hNBbgfAyE](https://youtu.be/k1hNBbgfAyE)
+> Watch: [https://youtu.be/k1hNBbgfAyE](https://youtu.be/k1hNBbgfAyE)
 
 ### GY-521 
 GY-521 is a module that manages the MPU-6050 sensor, a chip manufactured by Invensense, which is a IMU (Inertia Measurement Unit) sensor based on MEMS technology that contains a three-axis accelerometer and a three-axis gyroscope embedded in a single chip. This is a 6 DOF (degrees of freedom) IMU sensor so it gives six values as output. It also contains a temperature sensor.
