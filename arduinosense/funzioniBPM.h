@@ -30,10 +30,10 @@ volatile boolean secondBeat = false;      // used to seed rate array so we start
 void interruptSetup()
 {
   // Initializes Timer2 to throw an interrupt every 2mS.
-  TCCR2A = 0x02;     // DISABLE PWM ON DIGITAL PINS 3 AND 11, AND GO INTO CTC MODE
-  TCCR2B = 0x06;     // DON'T FORCE COMPARE, 256 PRESCALER
-  OCR2A = 0X7C;      // SET THE TOP OF THE COUNT TO 124 FOR 500Hz SAMPLE RATE
-  TIMSK2 = 0x02;     // ENABLE INTERRUPT ON MATCH BETWEEN TIMER2 AND OCR2A
+  TCCR2A = 0x02;     // DISABLE PWM ON DIGITAL PINS 3 AND 11, AND GO INTO CTC MODE --> Clear Time to Compare
+  TCCR2B = 0x06;     // DON'T FORCE COMPARE, 256 PRESCALER --> working frequency 16 MHz / 256 = 62500 Hz
+  OCR2A = 0X7C;      // SET THE TOP OF THE COUNT TO 124 FOR 500Hz SAMPLE RATE (i.e every 2ms) --> (62500 Hz/500 Hz) -1 = 124 (register Output Compare)
+  TIMSK2 = 0x02;     // ENABLE INTERRUPT ON MATCH BETWEEN TIMER2 AND OCR2A 
   sei();             // MAKE SURE GLOBAL INTERRUPTS ARE ENABLED
 }
 
