@@ -1,10 +1,10 @@
-#ifndef EMGsmooth 
+#ifndef EMGsmooth
 #define EMGsmooth
 // Dichiaro le funzioni che mi servono per leggere i battiti
 
 int EMG_pin = A0;
-int soglia_pin=A2;
-int soglia =0; 
+int soglia_pin = A2;
+int soglia = 0;
 
 #include <Arduino.h>
 
@@ -20,9 +20,9 @@ int average = 0;                // the average
 
 // threeshold controll
 
-int averagecalc (){
-  
-//  emg reading and smoothing
+int averagecalc () {
+
+  //  emg reading and smoothing
   // subtract the last reading:
   total = total - readings[readIndex];
   // read from the sensor:
@@ -40,8 +40,10 @@ int averagecalc (){
 
   // calculate the average:
   average = total / numReadings;
- 
-return average;
+  if (average < 0) {
+    average = -average;
+  }
+  return average;
 }
 
 #endif
