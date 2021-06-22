@@ -3,6 +3,7 @@ import serial
 import time
 
 bottone=True
+porta='/dev/tty.usbserial-146140'
 
 def btn_clicked():
     global bottone
@@ -27,7 +28,7 @@ def sroll_changed(event):
     time.sleep(0.1)
     print("R"+str(sroll.get()))
 
-arduino = serial.Serial('/dev/tty.HC-05-SerialPort', 9600)
+arduino = serial.Serial(porta, 9600)
 time.sleep(1)
 
 print("pronto a ricevere")
