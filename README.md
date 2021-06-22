@@ -1091,13 +1091,20 @@ sroll.set(90)
 
 And to send data:
 ```py
-def spinza_changed(event):  
-    time.sleep(0.1)
-    print("P"+str(spinza.get()))
+def spinza_changed(event):  #viene attivata quando varia lo slider spinza
+    time.sleep(0.3) #aspettano 100 ms per evitare di stampare tutti i valori dello slider che si muove
+    print("P"+str(spinza.get())) #stampa codificata
+    if (bottone==False): #solo se sono in controllo manuale
+        #invio i dati sulla seriale convertendoli in un byte (aggiungo anche i fine riga)
+        #sfrutto la codifica concatenando P, il valore degli slider e i fine riga
+        #byte con codifica utf-8
+        arduino.write(bytes("P"+str(spinza.get())+"\r\n", 'utf-8'))
     
-def sroll_changed(event):  
-    time.sleep(0.1)
-    print("R"+str(sroll.get()))
+def sroll_changed(event):  #viene attivata quando varia lo slider sroll
+    time.sleep(0.3) #aspettano 100 ms per evitare di stampare tutti i valori dello slider che si muove
+    print("R"+str(sroll.get())) #stampa codificata
+    if (bottone==False): #solo se sono in controllo manuale
+        arduino.write(bytes("R"+str(sroll.get())+"\r\n", 'utf-8')) #invio i dati sulla seriale (vedi fz precedente)
 ```
 
 The control button is actually fake as it consists of two images that are interchanged:
@@ -1117,23 +1124,109 @@ b0.place(
 ```
 
 ```py
-def btn_clicked():
-    global bottone
-    print("Button Clicked")
-    if (bottone):
-        b0.config(image = img1)
-        print("C1")
-    elif (bottone==False):
-        b0.config(image = img0)
-        print("C0")
+def btn_clicked(): #fz per aggiornare il pulsante, viene richiamata quando cliccato
+    global bottone #utilizzare variabili globali
+    # print("Button Clicked") 
+    if (bottone): #siamo in controllo automatico5
+        b0.config(image = img1) #aggiorna l'imm in rosso
+        print("C1") #per cambiare modalità su arduino
+        arduino.write(b'C1\r\n') #invio i dati sulla seriale convertendoli in un byte (aggiungo anche i fine riga)
+    elif (bottone==False): #se siamo in controllo manuale
+        b0.config(image = img0) #aggiorna l'imm in grigio
+        print("C0") #per cambiare modalità su arduino
+        arduino.write(b'C0\r\n') #invio i dati sulla seriale convertendoli in un byte (aggiungo anche i fine riga)
+        #reset degli slider
         spinza.set(90)
-        sroll.set(90)
-    bottone=not(bottone)
-    print(bottone)
+        sroll.set(0)
+    bottone=not(bottone) #cambia lo stato quando viene premuto il pulsante
+    # print(bottone)
 ```
 
+To receive data continuously, an `arduinoreceive()` function has been added, called by an `.after` method within a label that is continuously updated. This function is called at the end of the code for the first time. 
+We start by initializing the serial:
+
+```py
+import serial
+arduino = serial.Serial(porta, 9600)
+```
+The function reads the variables of the graph (which we will talk about later) and the position indices. Starts by deleting the graph to update it and goes to read the text on the serial `.readLine()`.
+It converts the received text as a byte and checks the first letter to decode the value. It then updates the labels `.itemconfigure(label_name,text=testo.replace('T', '')+" ° C")` or values for the chart. Inserting the values the replace function deletes the encoding letter.
+To update the graph values, the index is increased every lap. Then it is drawn.
+
+```py
+def arduinoreceive(): #funzione per ricevere
+    #importo i grafici per poterci lavorare
+    global a
+    global b
+    #resetto il grafico cancellandolo
+    canvas.delete(a)
+    canvas.delete(b)
+    #importo gli indici per poterci lavorare
+    global indicem
+    global indices
+    testo= arduino.readline() #legge la riga
+    testo=testo.rstrip() #elimina i caratter '\r\n'
+    testo=testo.decode("utf-8")  #utilizza la codifica corretta
+    #print(testo)
+    canvas.itemconfigure(grafico,fill='white') #aggiorno lo sfondo del grafico
+    canvas.itemconfigure(text,text=str(testo)) #aggiorna l'etichetta per il debug
+    window.after(50, arduinoreceive) #quando cambiano le etichette richiama la funzione creando un loop
+    #iniziamo la decodifica
+    if testo[0]=="T":
+     #   print("Temperatura = "+testo.replace('T', ''))
+        canvas.itemconfigure(temp_label,text=testo.replace('T', '')+" ° C")
+    if testo[0]=="A":
+     #   print("Angolo = "+testo.replace('A', ''))
+        canvas.itemconfigure(roll_label,text=testo.replace('A', '')+" °")
+    if testo[0]=="B":
+     #   print("Bpm = "+testo.replace('B', ''))
+        canvas.itemconfigure(bpm_label,text=testo.replace('B', ''))
+    if testo[0]=="M":
+        #vado ad aggiornare il valore corrispondnete all'ordinata del grafico
+        #utilizzo la funzione mappa per mappare nell'intervallo corretto passandogli il testo senza il primo carattere
+        data_m[indicem]=mappa(testo.replace('M', ''))
+     #   print(f"data_m{indicem}]="+str(data_m[indicem]))
+      #  print(indicem)
+        indicem+=1 #incremento l'indice
+    if testo[0]=="S":
+        data_s[indices]=mappa(testo.replace('S', ''))
+        indices+=1
+        #disegno il grafico della media (average) unendo le coordinate di tutti i punti
+    a=canvas.create_line( 'SEE LATER' )
+    #disegno il grafico della soglia unendo le coordinate di tutti i punti
+    #questo grafico NON viene attualmente utilizzato in quanto non vengono aggiornati i valori
+    b=canvas.create_line( 'SEE LATER' )
+    #se necessario resetto l'incremento dell'indice
+    if indicem==rangemax:
+        indicem=0
+    if indices==rangemax:
+        indices=0
+```
+
+The graph is constructed by joining 200 points whose coordinates are contained in the `datax` and `data_m` lists. These lists were created separately with the `vector.py` and `datilinea.py` scripts.
+
+<img src= "images/python1.png" alt = "Python" width = "600"/>
+
+<img src= "images/python2.png" alt = "Python" width = "600"/>
 
 
+The sliders were created with the `Scale()` command and placed with `pack()`.
+
+```py
+spinza = Scale(win, from_=0, to=180,orient=HORIZONTAL,command=spinza_changed) #creiamo il widget con Scale
+spinza.pack(side=BOTTOM,padx=120,  ipadx=60) #allineiamo lo slider e lo allarghiamo
+spinza.set(90) #mettiamo l'indicatore al centro
+slider1_label = ttk.Label(win,text=" CONTROLLO PINZA ",relief='groove',padding='3')
+slider1_label.pack(side=BOTTOM)
+#creiamo il secondo slider
+sroll = Scale(win, from_=-90, to=90,orient=HORIZONTAL,command=sroll_changed)
+sroll.pack(side=BOTTOM,  ipadx=60)
+sroll.set(0)
+slider_label = ttk.Label(win,text=" CONTROLLO ROTAZIONE ",relief='groove',padding='3')
+slider_label.pack(side=BOTTOM)
+```
+
+<img src= "images/python3.png" alt = "Python" width = "600"/>
 
 
 ### Mobile app

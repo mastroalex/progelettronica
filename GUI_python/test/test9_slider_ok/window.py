@@ -1,10 +1,16 @@
 from tkinter import * # importiamo tutta la lib Tkinter
 import serial # lib per la comunicazione seriale
 import time # lib per i ritardi
+from tkinter import ttk
 
 bottone=True #variabile di stato per il bottone (switch)(True=automatico, False=manuale)
 #porta='/dev/tty.usbserial-146120'
 porta='/dev/cu.HC-05-SerialPort'
+
+#inizializzo i tre vettori creati con lo scritp vector.py
+#i tre vettori (datax), (data_s) e (data_m) servono per il grafico
+#rappresentano i punti per disegnare il grafico unendo le coordinate
+#passi lungo (t) e ampiezza lungo (v) letta dalla media(average) e dalla soglia
 
 datax=[565, 567, 569, 572, 574, 577, 579, 582, 584, 587, 589, 592, 594, 597, 599, 602, 604, 606, 609, 611,
        614, 616, 619, 621, 624, 626, 629, 631, 634, 636, 639, 641, 644, 646, 648, 651, 653, 656, 658, 661,
@@ -55,14 +61,14 @@ def btn_clicked(): #fz per aggiornare il pulsante, viene richiamata quando clicc
     if (bottone): #siamo in controllo automatico5
         b0.config(image = img1) #aggiorna l'imm in rosso
         print("C1") #per cambiare modalità su arduino
-        arduino.write(b'C1\r\n')
+        arduino.write(b'C1\r\n') #invio i dati sulla seriale convertendoli in un byte (aggiungo anche i fine riga)
     elif (bottone==False): #se siamo in controllo manuale
         b0.config(image = img0) #aggiorna l'imm in grigio
         print("C0") #per cambiare modalità su arduino
-        arduino.write(b'C0\r\n')
-#reset degli slider
+        arduino.write(b'C0\r\n') #invio i dati sulla seriale convertendoli in un byte (aggiungo anche i fine riga)
+        #reset degli slider
         spinza.set(90)
-        sroll.set(90)
+        sroll.set(0)
     bottone=not(bottone) #cambia lo stato quando viene premuto il pulsante
     # print(bottone)
 
@@ -70,35 +76,43 @@ def btn_clicked(): #fz per aggiornare il pulsante, viene richiamata quando clicc
 def spinza_changed(event):  #viene attivata quando varia lo slider spinza
     time.sleep(0.3) #aspettano 100 ms per evitare di stampare tutti i valori dello slider che si muove
     print("P"+str(spinza.get())) #stampa codificata
-    if (bottone==False):
+    if (bottone==False): #solo se sono in controllo manuale
+        #invio i dati sulla seriale convertendoli in un byte (aggiungo anche i fine riga)
+        #sfrutto la codifica concatenando P, il valore degli slider e i fine riga
+        #byte con codifica utf-8
         arduino.write(bytes("P"+str(spinza.get())+"\r\n", 'utf-8'))
     
 def sroll_changed(event):  #viene attivata quando varia lo slider sroll
     time.sleep(0.3) #aspettano 100 ms per evitare di stampare tutti i valori dello slider che si muove
     print("R"+str(sroll.get())) #stampa codificata
-    if (bottone==False):
-        arduino.write(bytes("R"+str(sroll.get())+"\r\n", 'utf-8'))
+    if (bottone==False): #solo se sono in controllo manuale
+        arduino.write(bytes("R"+str(sroll.get())+"\r\n", 'utf-8')) #invio i dati sulla seriale (vedi fz precedente)
 
 #inizializzo la seriale 
 arduino = serial.Serial(porta, 9600)
 time.sleep(1)
 #print("pronto a ricevere")
 
+#indici per aggiornare i valori del grafico
 indicem=0
 indices=0
 
 def arduinoreceive(): #funzione per ricevere
+    #importo i grafici per poterci lavorare
     global a
     global b
+    #resetto il grafico cancellandolo
     canvas.delete(a)
     canvas.delete(b)
+    #importo gli indici per poterci lavorare
     global indicem
     global indices
+    
     testo= arduino.readline() #legge la riga
     testo=testo.rstrip() #elimina i caratter '\r\n'
     testo=testo.decode("utf-8")  #utilizza la codifica corretta
     #print(testo)
-    canvas.itemconfigure(grafico,fill='white') 
+    canvas.itemconfigure(grafico,fill='white') #aggiorno lo sfondo del grafico
     canvas.itemconfigure(text,text=str(testo)) #aggiorna l'etichetta per il debug
     window.after(50, arduinoreceive) #quando cambiano le etichette richiama la funzione creando un loop
     #iniziamo la decodifica
@@ -112,13 +126,16 @@ def arduinoreceive(): #funzione per ricevere
      #   print("Bpm = "+testo.replace('B', ''))
         canvas.itemconfigure(bpm_label,text=testo.replace('B', ''))
     if testo[0]=="M":
+        #vado ad aggiornare il valore corrispondnete all'ordinata del grafico
+        #utilizzo la funzione mappa per mappare nell'intervallo corretto passandogli il testo senza il primo carattere
         data_m[indicem]=mappa(testo.replace('M', ''))
      #   print(f"data_m{indicem}]="+str(data_m[indicem]))
       #  print(indicem)
-        indicem+=1
+        indicem+=1 #incremento l'indice
     if testo[0]=="S":
         data_s[indices]=mappa(testo.replace('S', ''))
         indices+=1
+        #disegno il grafico della media (average) unendo le coordinate di tutti i punti
     a=canvas.create_line(datax[0], data_m[0], 
 datax[1], data_m[1], datax[2], data_m[2], datax[3], data_m[3], datax[4], data_m[4], datax[5], data_m[5], datax[6], data_m[6], datax[7], data_m[7], datax[8], data_m[8], datax[9], data_m[9], datax[10], data_m[10], 
 datax[11], data_m[11], datax[12], data_m[12], datax[13], data_m[13], datax[14], data_m[14], datax[15], data_m[15], datax[16], data_m[16], datax[17], data_m[17], datax[18], data_m[18], datax[19], data_m[19], datax[20], data_m[20], 
@@ -140,6 +157,8 @@ datax[161], data_m[161], datax[162], data_m[162], datax[163], data_m[163], datax
 datax[171], data_m[171], datax[172], data_m[172], datax[173], data_m[173], datax[174], data_m[174], datax[175], data_m[175], datax[176], data_m[176], datax[177], data_m[177], datax[178], data_m[178], datax[179], data_m[179], datax[180], data_m[180], 
 datax[181], data_m[181], datax[182], data_m[182], datax[183], data_m[183], datax[184], data_m[184], datax[185], data_m[185], datax[186], data_m[186], datax[187], data_m[187], datax[188], data_m[188], datax[189], data_m[189], datax[190], data_m[190], 
 datax[191], data_m[191], datax[192], data_m[192], datax[193], data_m[193], datax[194], data_m[194], datax[195], data_m[195], datax[196], data_m[196], datax[197], data_m[197], datax[198], data_m[198], datax[199], data_m[199], datax[200], data_m[200],fill='red')
+    #disegno il grafico della soglia unendo le coordinate di tutti i punti
+    #questo grafico NON viene attualmente utilizzato in quanto non vengono aggiornati i valori
     b=canvas.create_line(datax[0], data_s[0], 
 datax[1], data_s[1], datax[2], data_s[2], datax[3], data_s[3], datax[4], data_s[4], datax[5], data_s[5], datax[6], data_s[6], datax[7], data_s[7], datax[8], data_s[8], datax[9], data_s[9], datax[10], data_s[10], 
 datax[11], data_s[11], datax[12], data_s[12], datax[13], data_s[13], datax[14], data_s[14], datax[15], data_s[15], datax[16], data_s[16], datax[17], data_s[17], datax[18], data_s[18], datax[19], data_s[19], datax[20], data_s[20], 
@@ -161,6 +180,7 @@ datax[161], data_s[161], datax[162], data_s[162], datax[163], data_s[163], datax
 datax[171], data_s[171], datax[172], data_s[172], datax[173], data_s[173], datax[174], data_s[174], datax[175], data_s[175], datax[176], data_s[176], datax[177], data_s[177], datax[178], data_s[178], datax[179], data_s[179], datax[180], data_s[180], 
 datax[181], data_s[181], datax[182], data_s[182], datax[183], data_s[183], datax[184], data_s[184], datax[185], data_s[185], datax[186], data_s[186], datax[187], data_s[187], datax[188], data_s[188], datax[189], data_s[189], datax[190], data_s[190], 
 datax[191], data_s[191], datax[192], data_s[192], datax[193], data_s[193], datax[194], data_s[194], datax[195], data_s[195], datax[196], data_s[196], datax[197], data_s[197], datax[198], data_s[198], datax[199], data_s[199], datax[200], data_s[200])
+    #se necessario resetto l'incremento dell'indice
     if indicem==rangemax:
         indicem=0
     if indices==rangemax:
@@ -168,9 +188,10 @@ datax[191], data_s[191], datax[192], data_s[192], datax[193], data_s[193], datax
 # fine arduino receive
 
 def mappa(valore):
+    #vado a mappare il valore ricevuto convertendolo in un intero
+    #lo mappo nell'altezza del grafico
     dato=canvas.coords(t)[1]-(canvas.coords(t)[1]-canvas.coords(v)[1])*abs(int(valore))/1023
     return int(dato)
-
 
 
 window = Tk() #creo la finestra
@@ -188,8 +209,9 @@ canvas = Canvas( #creiamo un'area speciale per disegnare
 
 canvas.place(x = 0, y = 0) #dall'angolo in alto a sx
 
-a=canvas.create_line(0,0,1,1)
-b=canvas.create_line(0,0,1,1)
+#inizializzo i due grafici vuoti
+a=canvas.create_line(0,0,1,1) #grafico della media
+b=canvas.create_line(0,0,1,1) #grafico della soglia (NON usato in quanto non vengono aggiornati i valori)
 
 roll=canvas.create_text( #etichetta "ROLL"
     622.0, 115.0,
@@ -208,7 +230,7 @@ canvas.create_text( #etichetta "TEMP"
     font = ("None", int(24.0)))
 
 text=canvas.create_text( #etichetta per il DEBUG della seriale
-    100, 600,
+    230, 540,
     text = "DEBUG",
     fill = "#000000",
     font = ("None", int(24.0)))
@@ -235,13 +257,25 @@ canvas.create_rectangle(
 win = Frame(window)
 win.pack(side =LEFT, expand=False)
 
+
 spinza = Scale(win, from_=0, to=180,orient=HORIZONTAL,command=spinza_changed) #creiamo il widget con Scale
-spinza.pack(side=BOTTOM, padx=120, ipadx=60) #allineiamo lo slider e lo allarghiamo
+spinza.pack(side=BOTTOM,padx=120,  ipadx=60) #allineiamo lo slider e lo allarghiamo
 spinza.set(90) #mettiamo l'indicatore al centro
+slider1_label = ttk.Label(win,text=" CONTROLLO PINZA ",relief='groove',padding='3')
+slider1_label.pack(side=BOTTOM)
+
 #creiamo il secondo slider
 sroll = Scale(win, from_=-90, to=90,orient=HORIZONTAL,command=sroll_changed)
-sroll.pack(side=BOTTOM, pady=100,  ipadx=60)
+
+emptybutton = Button(win, text="", fg="white")
+emptybutton.pack( side = BOTTOM)
+emptybutton2 = Button(win, text="", fg="white")
+emptybutton2.pack( side = BOTTOM )
+
+sroll.pack(side=BOTTOM,  ipadx=60)
 sroll.set(0)
+slider_label = ttk.Label(win,text=" CONTROLLO ROTAZIONE ",relief='groove',padding='3')
+slider_label.pack(side=BOTTOM)
 
 #carico le img
 img0 = PhotoImage(file = f"img0.png")
@@ -255,7 +289,7 @@ b0 = Button(
     relief = "flat")
 #posiziono il bottone per il controllo
 b0.place(
-    x = 143, y = 79,
+    x = 143, y = 69,
     width = 180,
     height = 123)
 
@@ -298,13 +332,17 @@ t=canvas.create_text(
 
 # Chart
 
+#creo gli assi allineandoli con le etichette (v) e (t)
 canvas.create_line(canvas.coords(v)[0]-10, canvas.coords(t)[1], canvas.coords(t)[0]-20, canvas.coords(t)[1], arrow='last'  )
 canvas.create_line(canvas.coords(v)[0], canvas.coords(t)[1]+10 , canvas.coords(v)[0], canvas.coords(v)[1]+20, arrow='last')
+
+# script per creare i vettori dei grafici spostato in vector.py
 
 # datax=[0, 0]
 # data_m=[0, 0]
 # data_s=[0, 0]
-rangemax=200
+rangemax=200 #incremento massimo dell'indice
+
 # passo=(canvas.coords(t)[0]-20-canvas.coords(v)[0]-10)/rangemax
 # 
 # for i in range(0,rangemax+1):
@@ -319,7 +357,9 @@ rangemax=200
 # del data_s[rangemax+1:]
 # del data_m[rangemax+1:]
 
-arduinoreceive()
+arduinoreceive() #chiamo la funzioen che farà partire il loop di ricezione
+
+# chiudo le funzione richiamate della libreria Tkinker per disegnare la GUI
 window.resizable(False, False)
 window.mainloop()
 
