@@ -1069,7 +1069,7 @@ Another possibility is to use Python to develop the application. Python is a mor
 
 The [Pyserial](https://pyserial.readthedocs.io/en/latest/#) library for serial communication comes in handy.
 
-To easily develop the graphical interface we relied on [Tkinter Designer](https://github.com/ParthJadhav/Tkinter-Designer) which allows us to convert a design made with [Figma](https://www.figma.com) in drag and drop. 
+To easily develop the graphical interface we relied on [Tkinter Designer](https://github.com/ParthJadhav/Tkinter-Designer) which allows us to convert a design made with [Figma](https://www.figma.com) with drag and drop into a python snippet. 
 We started by simply devising the main window design:
 
 <img src= "images/figma.png" alt = "Figma" width = "600"/>
