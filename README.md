@@ -1563,6 +1563,28 @@ Then there is the html structure in which we have put different containers with 
     padding-top: 50px;
     }
 ```
+And the page body:
+
+```html
+ <div class="container2">
+    <div id="chart-tempmpu" class="container"></div>
+    </div>
+
+    <div class="containerinfo">
+        <div id="chart-average" class="container"></div>
+        <div id="chart-soglia" class="container"></div>
+    </div>
+
+    <div class="containerinfo">
+        <div id="chart-angle" class="container"></div>
+        <div id="chart-bpm" class="container"></div>
+    </div>
+
+    <div class="containerinfo">
+        <div id="chart-temp" class="container"></div>
+        <div id="chart-hum" class="container"></div>
+    </div>
+```
 
 By recalling the variables containing the data, the graphs are built using the highcharts libraries and therefore with a javascript snippet such as:
 
