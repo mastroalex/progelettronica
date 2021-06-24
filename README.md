@@ -22,7 +22,6 @@ For data charts: [bit.ly/datiprogettoelettronica](http://bit.ly/datiprogettoelet
   * [Table of contents](#table-of-contents)
   * [Prerequisites](#prerequisites)
   * [Getting started](#getting-started)
-  * [How to use](#how-to-use)
     + [GY-521](#gy-521)
     + [Servo](#servo)
     + [EMG Sensor](#emg-sensor)
